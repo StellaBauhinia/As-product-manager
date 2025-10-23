@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发现周末 - 首页</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js"></script>
+  <style>
+    .banner {
+      height: 180px;
+      background-image: url('https://source.unsplash.com/random/375x180/?weekend,picnic');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      border-radius: var(--border-radius-md);
+      margin: var(--spacing-3) var(--spacing-3) 0;
+      overflow: hidden;
+    }
+    
+    .banner-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.5));
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: var(--spacing-3);
+      color: white;
+    }
+    
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-3);
+      padding: var(--spacing-3);
+    }
+    
+    .feature-item {
+      background-color: var(--color-background-card);
+      border-radius: var(--border-radius-md);
+      padding: var(--spacing-3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: var(--box-shadow-sm);
+      height: 100px;
+    }
+    
+    .feature-icon {
+      font-size: 24px;
+      margin-bottom: var(--spacing-2);
+      color: var(--color-primary-500);
+    }
+    
+    .weather-card {
+      background-color: var(--color-background-card);
+      border-radius: var(--border-radius-md);
+      padding: var(--spacing-3);
+      margin: 0 var(--spacing-3);
+      box-shadow: var(--box-shadow-sm);
+    }
+    
+    .weather-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: var(--spacing-2);
+    }
+    
+    .weather-days {
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .weather-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .traffic-indicator {
+      width: 100%;
+      height: 6px;
+      background-color: var(--color-neutral-200);
+      border-radius: var(--border-radius-full);
+      margin-top: var(--spacing-2);
+      position: relative;
+    }
+    
+    .traffic-level {
+      height: 100%;
+      border-radius: var(--border-radius-full);
+      background-color: #4CAF50;
+    }
+    
+    .season-cards {
+      display: flex;
+      overflow-x: auto;
+      padding: var(--spacing-3);
+      gap: var(--spacing-3);
+      scrollbar-width: none;
+    }
+    
+    .season-cards::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .season-card {
+      min-width: 200px;
+      height: 120px;
+      border-radius: var(--border-radius-md);
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+    
+    .season-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: var(--spacing-2);
+      background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0));
+      color: white;
+      border-bottom-left-radius: var(--border-radius-md);
+      border-bottom-right-radius: var(--border-radius-md);
+    }
+    
+    .story-feed {
+      padding: var(--spacing-3);
+    }
+    
+    .story-card {
+      background-color: var(--color-background-card);
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      margin-bottom: var(--spacing-4);
+      box-shadow: var(--box-shadow-sm);
+    }
+    
+    .story-header {
+      display: flex;
+      align-items: center;
+      padding: var(--spacing-2);
+    }
+    
+    .story-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      margin-right: var(--spacing-2);
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .story-image {
+      width: 100%;
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .story-content {
+      padding: var(--spacing-3);
+    }
+    
+    .story-actions {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--spacing-2) var(--spacing-3);
+      border-top: 1px solid var(--color-neutral-200);
+    }
+    
+    .section-title {
+      padding: var(--spacing-3) var(--spacing-3) var(--spacing-2);
+      font-size: var(--font-size-h3);
+      font-weight: var(--font-weight-medium);
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <div class="status-bar-time">9:41</div>
+      <div class="status-bar-icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="content">
+      <!-- 顶部导航栏 -->
+      <div class="flex justify-between items-center p-3">
+        <div class="flex items-center">
+          <i class="fas fa-cloud-sun" style="color: var(--color-primary-500); font-size: 24px;"></i>
+          <span class="ml-2" style="font-weight: var(--font-weight-medium);">发现周末</span>
+        </div>
+        <div class="flex items-center">
+          <span>上海 <i class="fas fa-chevron-down" style="font-size: 12px;"></i></span>
+        </div>
+        <div class="flex items-center gap-3">
+          <i class="fas fa-search"></i>
+          <i class="fas fa-bell"></i>
+        </div>
+      </div>
+      
+      <!-- Banner -->
+      <div class="banner">
+        <div class="banner-overlay">
+          <h2 style="font-size: var(--font-size-h3); margin-bottom: var(--spacing-1);">你的周末，不止一种可能</h2>
+        </div>
+      </div>
+      
+      <!-- 功能入口 -->
+      <div class="feature-grid">
+        <div class="feature-item">
+          <i class="fas fa-car-side feature-icon"></i>
+          <span>附近1小时</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-gift feature-icon"></i>
+          <span>本周新发现</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-award feature-icon"></i>
+          <span>官方推荐</span>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-child feature-icon"></i>
+          <span>亲子时光</span>
+        </div>
+      </div>
+      
+      <!-- 天气与出行指数 -->
+      <div class="weather-card">
+        <div class="weather-header">
+          <h3>周末天气与出行指数</h3>
+          <i class="fas fa-sun" style="color: var(--color-warning);"></i>
+        </div>
+        
+        <div class="weather-days">
+          <div class="weather-day">
+            <span>周六</span>
+            <i class="fas fa-sun" style="color: var(--color-warning); margin: var(--spacing-1) 0;"></i>
+            <span>25°C</span>
+            <div class="traffic-indicator">
+              <div class="traffic-level" style="width: 40%; background-color: #4CAF50;"></div>
+            </div>
+          </div>
+          <div class="weather-day">
+            <span>周日</span>
+            <i class="fas fa-cloud-sun" style="color: var(--color-warning); margin: var(--spacing-1) 0;"></i>
+            <span>23°C</span>
+            <div class="traffic-indicator">
+              <div class="traffic-level" style="width: 65%; background-color: #FFC107;"></div>
+            </div>
+          </div>
+        </div>
+        
+        <p style="font-size: var(--font-size-caption); color: var(--color-text-secondary); margin-top: var(--spacing-2);">
+          绿色代表畅通无阻，建议指数低于60%时出行哦～
+        </p>
+      </div>
+      
+      <!-- 季节出游推荐 -->
+      <h3 class="section-title">不错过每个季节的限定美好</h3>
+      <div class="season-cards">
+        <div class="season-card" style="background-image: url('https://source.unsplash.com/random/200x120/?spring,flowers');">
+          <div class="season-overlay">
+            <h4>春日限定：去油菜花田里打个滚</h4>
+          </div>
+        </div>
+        <div class="season-card" style="background-image: url('https://source.unsplash.com/random/200x120/?summer,creek');">
+          <div class="season-overlay">
+            <h4>夏日纳凉：到山间溪谷里踩水</h4>
+          </div>
+        </div>
+        <div class="season-card" style="background-image: url('https://source.unsplash.com/random/200x120/?autumn,leaves');">
+          <div class="season-overlay">
+            <h4>秋日私语：寻找城市里最美的落叶大道</h4>
+          </div>
+        </div>
+        <div class="season-card" style="background-image: url('https://source.unsplash.com/random/200x120/?winter,tea');">
+          <div class="season-overlay">
+            <h4>冬日暖阳：围炉煮茶，偷得浮生半日闲</h4>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 体验分享 -->
+      <h3 class="section-title">看看他们怎么玩</h3>
+      <div class="story-feed">
+        <div class="story-card">
+          <div class="story-header">
+            <div class="story-avatar" style="background-image: url('https://source.unsplash.com/random/36x36/?person');"></div>
+            <div>
+              <div style="font-weight: var(--font-weight-medium);">小鱼儿</div>
+              <div style="font-size: var(--font-size-caption); color: var(--color-text-secondary);">2小时前</div>
+            </div>
+          </div>
+          <div class="story-image" style="background-image: url('https://source.unsplash.com/random/375x200/?cafe,forest');"></div>
+          <div class="story-content">
+            <h4 style="margin-bottom: var(--spacing-2);">打卡成功！ 这家藏在森林里的咖啡馆也太治愈了</h4>
+            <div class="flex gap-2 mb-2">
+              <div class="tag tag-sm">#亲子出行</div>
+              <div class="tag tag-sm">#小众咖啡馆</div>
+              <div class="tag tag-sm">#周末去哪儿</div>
+            </div>
+          </div>
+          <div class="story-actions">
+            <div class="flex gap-3">
+              <div><i class="far fa-heart"></i> 128</div>
+              <div><i class="far fa-comment"></i> 32</div>
+            </div>
+            <div><i class="far fa-bookmark"></i></div>
+          </div>
+        </div>
+        
+        <div class="story-card">
+          <div class="story-header">
+            <div class="story-avatar" style="background-image: url('https://source.unsplash.com/random/36x36/?person2');"></div>
+            <div>
+              <div style="font-weight: var(--font-weight-medium);">阳光灿烂</div>
+              <div style="font-size: var(--font-size-caption); color: var(--color-text-secondary);">昨天</div>
+            </div>
+          </div>
+          <div class="story-image" style="background-image: url('https://source.unsplash.com/random/375x200/?camping');"></div>
+          <div class="story-content">
+            <h4 style="margin-bottom: var(--spacing-2);">周末露营好去处，离市区仅40分钟车程</h4>
+            <div class="flex gap-2 mb-2">
+              <div class="tag tag-sm">#露营</div>
+              <div class="tag tag-sm">#亲近自然</div>
+              <div class="tag tag-sm">#周末好去处</div>
+            </div>
+          </div>
+          <div class="story-actions">
+            <div class="flex gap-3">
+              <div><i class="far fa-heart"></i> 95</div>
+              <div><i class="far fa-comment"></i> 18</div>
+            </div>
+            <div><i class="far fa-bookmark"></i></div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 底部导航栏 -->
+      <div style="height: 60px;"></div> <!-- 占位，防止内容被底部导航栏遮挡 -->
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <div class="bottom-nav">
+      <a href="index.html" class="nav-item active">
+        <i class="fas fa-home"></i>
+        <span>首页</span>
+      </a>
+      <a href="discovery.html" class="nav-item">
+        <i class="fas fa-compass"></i>
+        <span>发现</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-plus-circle"></i>
+        <span>发布</span>
+      </a>
+      <a href="collections.html" class="nav-item">
+        <i class="fas fa-bookmark"></i>
+        <span>收藏</span>
+      </a>
+      <a href="profile.html" class="nav-item">
+        <i class="fas fa-user"></i>
+        <span>我的</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

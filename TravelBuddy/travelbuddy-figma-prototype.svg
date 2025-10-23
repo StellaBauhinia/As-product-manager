@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1600" height="2400" xmlns="http://www.w3.org/2000/svg">
+  <!-- 设计系统颜色定义 -->
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    </style>
+    
+    <!-- 颜色变量 -->
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F4948B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C3756E;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- 组件样式 -->
+    <symbol id="iosStatusBar" viewBox="0 0 375 44">
+      <rect width="375" height="44" fill="#FFFFFF"/>
+      <text x="187.5" y="25" text-anchor="middle" font-family="Inter" font-size="15" font-weight="600" fill="#000000">9:41</text>
+      <text x="345" y="25" text-anchor="end" font-family="Inter" font-size="13" fill="#000000">📶 🔋 100%</text>
+    </symbol>
+    
+    <symbol id="bottomNav" viewBox="0 0 375 84">
+      <rect width="375" height="84" fill="#FFFFFF"/>
+      <line x1="0" x2="375" y1="0" y2="0" stroke="#EAEAEA" stroke-width="1"/>
+      
+      <!-- 导航项 -->
+      <g transform="translate(30, 12)">
+        <rect x="0" y="0" width="45" height="60" fill="none"/>
+        <circle cx="22.5" cy="15" r="4" fill="#C3756E"/>
+        <text x="22.5" y="45" text-anchor="middle" font-family="Inter" font-size="10" fill="#C3756E">首页</text>
+      </g>
+      
+      <g transform="translate(110, 12)">
+        <rect x="0" y="0" width="45" height="60" fill="none"/>
+        <circle cx="22.5" cy="15" r="4" fill="#98948F"/>
+        <text x="22.5" y="45" text-anchor="middle" font-family="Inter" font-size="10" fill="#98948F">发现</text>
+      </g>
+      
+      <g transform="translate(190, 12)">
+        <rect x="0" y="0" width="45" height="60" fill="none"/>
+        <circle cx="22.5" cy="15" r="4" fill="#98948F"/>
+        <text x="22.5" y="45" text-anchor="middle" font-family="Inter" font-size="10" fill="#98948F">发布</text>
+      </g>
+      
+      <g transform="translate(270, 12)">
+        <rect x="0" y="0" width="45" height="60" fill="none"/>
+        <circle cx="22.5" cy="15" r="4" fill="#98948F"/>
+        <text x="22.5" y="45" text-anchor="middle" font-family="Inter" font-size="10" fill="#98948F">收藏</text>
+      </g>
+      
+      <g transform="translate(330, 12)">
+        <rect x="0" y="0" width="45" height="60" fill="none"/>
+        <circle cx="22.5" cy="15" r="4" fill="#98948F"/>
+        <text x="22.5" y="45" text-anchor="middle" font-family="Inter" font-size="10" fill="#98948F">我的</text>
+      </g>
+    </symbol>
+    
+    <symbol id="buttonPrimary" viewBox="0 0 200 44">
+      <rect width="200" height="44" rx="8" fill="url(#primaryGradient)"/>
+      <text x="100" y="26" text-anchor="middle" font-family="Inter" font-size="16" font-weight="500" fill="#FFFFFF">按钮文字</text>
+    </symbol>
+    
+    <symbol id="card" viewBox="0 0 300 120">
+      <rect width="300" height="120" rx="12" fill="#FFFFFF"/>
+      <rect x="8" y="8" width="284" height="104" rx="8" fill="#F7F6F5"/>
+    </symbol>
+  </defs>
+  
+  <!-- 页面标题 -->
+  <text x="800" y="40" text-anchor="middle" font-family="Inter" font-size="24" font-weight="700" fill="#064232">发现周末 - Figma原型</text>
+  <text x="800" y="70" text-anchor="middle" font-family="Inter" font-size="14" fill="#98948F">8个移动端界面线框图 - 可直接导入Figma</text>
+  
+  <!-- 第一行：引导页面 -->
+  <g transform="translate(50, 100)">
+    <!-- 欢迎页 -->
+    <rect x="0" y="0" width="375" height="812" rx="20" fill="#FFFFFF" stroke="#EAEAEA" stroke-width="2"/>
+    <text x="187.5" y="30" text-anchor="middle" font-family="Inter" font-size="16" font-weight="600" fill="#064232">引导页1 - 欢迎页</text>
+    
+    <use href="#iosStatusBar" x="0" y="40"/>
+    
+    <!-- 欢迎页内容 -->
+    <g transform="translate(60, 200)">
+      <circle cx="127.5" cy="60" r="48" fill="#F7F6F5" stroke="#EAEAEA" stroke-width="1"/>
+      <circle cx="127.5" cy="60" r="20" fill="#F4948B" opacity="0.3"/>
+      
+      <text x="127.5" y="180" text-anchor="middle" font-family="Inter" font-size="24" font-weight="600" fill="#064232">每个周末，都值得期待</text>
+      
+      <text x="127.5" y="220" text-anchor="middle" font-family="Inter" font-size="14" fill="#98948F" width="250">
+        告别千篇一律的"宅"与"忙"，"发现周末"带你探索
+      </text>
+      <text x="127.5" y="240" text-anchor="middle" font-family="Inter" font-size="14" fill="#98948F" width="250">
+        身边那些人少、景美、又有趣的小众去处。
+      </text>
+      
+      <!-- 进度指示器 -->
+      <g transform="translate(100, 280)">
+        <circle cx="0" cy="0" r="6" fill="#064232"/>
+        <circle cx="20" cy="0" r="6" fill="#EAEAEA"/>
+        <circle cx="40" cy="0" r="6" fill="#EAEAEA"/>
+      </g>
+    </g>
+  </g>
+  
+  <g transform="translate(450, 100)">
+    <!-- 价值授权页 -->
+    <rect x="0" y="0" width="375" height="812" rx="20" fill="#FFFFFF" stroke="#EAEAEA" stroke-width="2"/>
+    <text x="187.5" y="30" text-anchor="middle" font-family="Inter" font-size="16" font-weight="600" fill="#064232">引导页2 - 价值授权页</text>
+    
+    <use href="#iosStatusBar" x="0" y="40"/>
+    
+    <!-- 授权页内容 -->
+    <g transform="translate(80, 180)">
+      <rect x="47.5" y="0" width="160" height="160" rx="12" fill="#F7F6F5" stroke="#EAEAEA" stroke-width="1"/>
+      <circle cx="127.5" cy="80" r="30" fill="#F4948B" opacity="0.2"/>
+      <circle cx="127.5" cy="80" r="15" fill="#F4948B" opacity="0.5"/>
+      
+      <text x="127.5" y="200" text-anchor="middle" font-family="Inter" font-size="20" font-weight="600" fill="#064232">惊喜，就在你身边1小时圈内</text>
+      
+      <text x="127.5" y="240" text-anchor="middle" font-family="Inter" font-size="14" fill="#98948F" width="280">
+        为了给你推荐最合适的宝藏目的地，我们需要知道你在哪里。
+      </text>
+      <text x="127.5" y="260" text-anchor="middle" font-family="Inter" font-size="14" fill="#98948F" width="280">
+        你的位置信息仅用于推荐，我们会严格保密哦！
+      </text>
+      
+      <!-- 按钮 -->
+      <rect x="27.5" y="300" width="200" height="44" rx="8" fill="#F4948B"/>
+      <text x="127.5" y="328" text-anchor="middle" font-family="Inter" font-size="16" font-weight="500" fill="#FFFFFF">好呀，开启定位</text>
+      
+      <text x="127.5" y="370" text-anchor="middle" font-family="Inter" font-size="14" fill="#98948F">手动选择城市 ></text>
+      
+      <!-- 进度指示器 -->
+      <g transform="translate(100, 400)">
+        <circle cx="0" cy="0" r="6" fill="#EAEAEA"/>
+        <circle cx="20" cy="0" r="6" fill="#064232"/>
+        <circle cx="40" cy="0" r="6" fill="#EAEAEA"/>
+      </g>
+    </g>
+  </g>
+  
+  <g transform="translate(850, 100)">
+    <!-- 即时奖励页 -->
+    <rect x="0" y="0" width="375" height="812" rx="20" fill="#FFFFFF" stroke="#EAEAEA" stroke-width="2"/>
+    <text x="187.5" y="30" text-anchor="middle" font-family="Inter" font-size="16" font-weight="600" fill="#064232">引导页3 - 即时奖励页</text>
+    
+    <use href="#iosStatusBar" x="0" y="40"/>
+    
+    <!-- 奖励页内容 -->
+    <g transform="translate(0, 40)">
+      <!-- 背景图片区域 -->
+      <rect x="20" y="100" width="335" height="400" rx="12" fill="#F7F6F5" stroke="#EAEAEA" stroke-width="1"/>
+      
+      <!-- 信息卡片 -->
+      <rect x="20" y="450" width="335" height="200" rx="12" fill="#FFFFFF" opacity="0.95"/>
+      <rect x="30" y="460" width="80" height="24" rx="12" fill="#064232"/>
+      <text x="35" y="475" font-family="Inter" font-size="12" font-weight="500" fill="#FFFFFF">你的第一个周末灵感</text>
+      
+      <text x="30" y="510" font-family="Inter" font-size="20" font-weight="600" fill="#064232">云涧书局</text>
+      <text x="30" y="540" font-family="Inter" font-size="14" fill="#98948F">藏在半山腰的玻璃房子，适合看书发呆一整天</text>
+      
+      <g transform="translate(30, 570)">
+        <circle cx="0" cy="0" r="8" fill="#F4948B"/>
+        <text x="20" y="4" font-family="Inter" font-size="12" fill="#98948F">离你约 45 分钟车程</text>
+        
+        <circle cx="0" cy="25" r="8" fill="#98948F"/>
+        <text x="20" y="29" font-family="Inter" font-size="12" fill="#98948F">人少景美</text>
+      </g>
+    </g>
+    
+    <use href="#bottomNav" x="0" y="728"/>
+  </g>
+  
+  <!-- 第二行：主应用页面 -->
+  <g transform="translate(50, 950)">
+    <!-- 首页 -->
+    <rect x="0" y="0" width="375" height="812" rx="20" fill="#FFFFFF" stroke="#EAEAEA" stroke-width="2"/>
+    <text x="187.5" y="30" text-anchor="middle" font-family="Inter" font-size="16" font-weight="600" fill="#064232">首页</text>
+    
+    <use href="#iosStatusBar" x="0" y="40"/>
+    
+    <!-- 首页内容 -->
+    <g transform="translate(20, 90)">
+      <!-- 顶部导航 -->
+      <g transform="translate(0, 0)">
+        <circle cx="20" cy="20" r="16" fill="#F7F6F5"/>
+        <text x="50" y="25" font-family="Inter" font-size="16" font-weight="500" fill="#064232">北京市 ▼</text>
+        <g transform="translate(300, 20)">
+          <circle cx="0" cy="0" r="8" fill="#F7F6F5"/>
+          <circle cx="25" cy="0" r="8" fill="#F7F6F5"/>
+        </g>
+      </g>
+      
+      <!-- Banner -->
+      <rect x="0" y="60" width="335" height="120" rx="8" fill="#F7F6F5"/>
+      <text x="10" y="140" font-family="Inter" font-size="18" font-weight="600" fill="#064232">你的周末，不止一种可能</text>
+      
+      <!-- 功能入口 -->
+      <g transform="translate(0, 170)">
+        <g transform="translate(0, 0)">
+          <circle cx="25" cy="0" r="20" fill="#F7F6F5"/>
+          <text x="25" y="35" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">附近1小时</text>
+        </g>
+        <g transform="translate(85, 0)">
+          <circle cx="25" cy="0" r="20" fill="#F7F6F5"/>
+          <text x="25" y="35" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">本周新发现</text>
+        </g>
+        <g transform="translate(170, 0)">
+          <circle cx="25" cy="0" r="20" fill="#F7F6F5"/>
+          <text x="25" y="35" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">官方推荐</text>
+        </g>
+        <g transform="translate(255, 0)">
+          <circle cx="25" cy="0" r="20" fill="#F7F6F5"/>
+          <text x="25" y="35" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">亲子时光</text>
+        </g>
+      </g>
+      
+      <!-- 出行预测 -->
+      <rect x="0" y="230" width="335" height="80" rx="8" fill="#F7F6F5"/>
+      <text x="10" y="255" font-family="Inter" font-size="16" font-weight="600" fill="#064232">周末天气与出行指数 ☀️</text>
+      <text x="10" y="285" font-family="Inter" font-size="14" fill="#98948F">周六: 晴 25°C | 出行指数: 畅通</text>
+      <rect x="10" y="300" width="315" height="4" rx="2" fill="#EAEAEA"/>
+      <rect x="10" y="300" width="126" height="4" rx="2" fill="#4CAF50"/>
+    </g>
+    
+    <use href="#bottomNav" x="0" y="728"/>
+  </g>
+  
+  <g transform="translate(450, 950)">
+    <!-- 发现页 -->
+    <rect x="0" y="0" width="375" height="812" rx="20" fill="#FFFFFF" stroke="#EAEAEA" stroke-width="2"/>
+    <text x="187.5" y="30" text-anchor="middle" font-family="Inter" font-size="16" font-weight="600" fill="#064232">发现页</text>
+    
+    <use href="#iosStatusBar" x="0" y="40"/>
+    
+    <!-- 发现页内容 -->
+    <g transform="translate(20, 90)">
+      <!-- 搜索框 -->
+      <rect x="0" y="0" width="275" height="40" rx="8" fill="#F7F6F5"/>
+      <text x="15" y="25" font-family="Inter" font-size="14" fill="#98948F">搜地点、查攻略、找用户</text>
+      <rect x="295" y="0" width="40" height="40" rx="8" fill="#F7F6F5"/>
+      
+      <!-- 热门搜索 -->
+      <g transform="translate(0, 60)">
+        <rect x="0" y="0" width="60" height="24" rx="12" fill="#F7F6F5"/>
+        <text x="30" y="15" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">露营</text>
+        
+        <rect x="70" y="0" width="50" height="24" rx="12" fill="#F7F6F5"/>
+        <text x="95" y="15" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">爬山</text>
+        
+        <rect x="130" y="0" width="45" height="24" rx="12" fill="#F7F6F5"/>
+        <text x="152.5" y="15" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">看展</text>
+      </g>
+      
+      <!-- 分类导航 -->
+      <g transform="translate(0, 110)">
+        <g transform="translate(0, 0)">
+          <circle cx="40" cy="40" r="24" fill="#F7F6F5"/>
+          <text x="40" y="90" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">亲近自然</text>
+        </g>
+        <g transform="translate(100, 0)">
+          <circle cx="40" cy="40" r="24" fill="#F7F6F5"/>
+          <text x="40" y="90" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">城市漫步</text>
+        </g>
+        <g transform="translate(200, 0)">
+          <circle cx="40" cy="40" r="24" fill="#F7F6F5"/>
+          <text x="40" y="90" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">亲子乐园</text>
+        </g>
+      </g>
+      
+      <!-- 推荐内容 -->
+      <g transform="translate(0, 200)">
+        <rect x="0" y="0" width="335" height="100" rx="8" fill="#F7F6F5"/>
+        <rect x="10" y="10" width="80" height="80" rx="4" fill="#EAEAEA"/>
+        
+        <text x="100" y="25" font-family="Inter" font-size="16" font-weight="600" fill="#064232">XX森林公园</text>
+        <text x="100" y="45" font-family="Inter" font-size="14" fill="#98948F">天然氧吧，洗肺圣地</text>
+        
+        <g transform="translate(100, 65)">
+          <text x="0" y="0" font-family="Inter" font-size="12" fill="#98948F">⭐ 4.8分</text>
+          <text x="80" y="0" font-family="Inter" font-size="12" fill="#98948F">📍 15.2km</text>
+          <text x="160" y="0" font-family="Inter" font-size="12" fill="#4CAF50">畅通</text>
+        </g>
+      </g>
+    </g>
+    
+    <use href="#bottomNav" x="0" y="728"/>
+  </g>
+  
+  <!-- 第三行：剩余页面 -->
+  <g transform="translate(850, 950)">
+    <!-- 详情页 -->
+    <rect x="0" y="0" width="375" height="812" rx="20" fill="#FFFFFF" stroke="#EAEAEA" stroke-width="2"/>
+    <text x="187.5" y="30" text-anchor="middle" font-family="Inter" font-size="16" font-weight="600" fill="#064232">详情页</text>
+    
+    <use href="#iosStatusBar" x="0" y="40"/>
+    
+    <!-- 详情页内容 -->
+    <g transform="translate(20, 90)">
+      <!-- 主图 -->
+      <rect x="0" y="0" width="335" height="200" rx="8" fill="#F7F6F5"/>
+      
+      <!-- 基本信息 -->
+      <rect x="0" y="220" width="335" height="150" rx="8" fill="#F7F6F5"/>
+      <text x="10" y="245" font-family="Inter" font-size="20" font-weight="600" fill="#064232">云涧书局</text>
+      
+      <g transform="translate(10, 270)">
+        <rect x="0" y="0" width="70" height="20" rx="10" fill="#064232" opacity="0.1"/>
+        <text x="35" y="12" text-anchor="middle" font-family="Inter" font-size="10" fill="#064232">官方推荐</text>
+        
+        <rect x="80" y="0" width="60" height="20" rx="10" fill="#F4948B" opacity="0.1"/>
+        <text x="110" y="12" text-anchor="middle" font-family="Inter" font-size="10" fill="#F4948B">亲子友好</text>
+      </g>
+      
+      <text x="250" y="245" text-anchor="end" font-family="Inter" font-size="18" font-weight="600" fill="#F4948B">⭐ 4.9</text>
+      <text x="250" y="265" text-anchor="end" font-family="Inter" font-size="12" fill="#98948F">3,450条评价</text>
+      
+      <!-- 关键信息 -->
+      <g transform="translate(10, 300)">
+        <text x="0" y="0" font-family="Inter" font-size="14" fill="#98948F">开放时间</text>
+        <text x="200" y="0" text-anchor="end" font-family="Inter" font-size="14" fill="#064232">周二至周日 09:00-18:00</text>
+        
+        <text x="0" y="25" font-family="Inter" font-size="14" fill="#98948F">地址</text>
+        <text x="200" y="25" text-anchor="end" font-family="Inter" font-size="14" fill="#064232">北京市朝阳区xxx路</text>
+        
+        <text x="0" y="50" font-family="Inter" font-size="14" fill="#98948F">门票</text>
+        <text x="200" y="50" text-anchor="end" font-family="Inter" font-size="14" fill="#064232">¥80/人，儿童半价</text>
+      </g>
+    </g>
+    
+    <use href="#bottomNav" x="0" y="728"/>
+  </g>
+  
+  <g transform="translate(50, 1800)">
+    <!-- 收藏页 -->
+    <rect x="0" y="0" width="375" height="812" rx="20" fill="#FFFFFF" stroke="#EAEAEA" stroke-width="2"/>
+    <text x="187.5" y="30" text-anchor="middle" font-family="Inter" font-size="16" font-weight="600" fill="#064232">收藏页</text>
+    
+    <use href="#iosStatusBar" x="0" y="40"/>
+    
+    <!-- 收藏页内容 -->
+    <g transform="translate(20, 90)">
+      <text x="0" y="0" font-family="Inter" font-size="20" font-weight="600" fill="#064232">我的收藏</text>
+      <text x="300" y="0" text-anchor="end" font-family="Inter" font-size="14" fill="#98948F">管理</text>
+      
+      <!-- 分类标签 -->
+      <g transform="translate(0, 40)">
+        <rect x="0" y="0" width="45" height="24" rx="12" fill="#064232"/>
+        <text x="22.5" y="15" text-anchor="middle" font-family="Inter" font-size="12" font-weight="500" fill="#FFFFFF">全部</text>
+        
+        <rect x="55" y="0" width="55" height="24" rx="12" fill="#F7F6F5"/>
+        <text x="82.5" y="15" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">目的地</text>
+        
+        <rect x="120" y="0" width="45" height="24" rx="12" fill="#F7F6F5"/>
+        <text x="142.5" y="15" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">攻略</text>
+      </g>
+      
+      <!-- 收藏列表 -->
+      <g transform="translate(0, 80)">
+        <rect x="0" y="0" width="335" height="100" rx="8" fill="#F7F6F5"/>
+        <rect x="10" y="10" width="80" height="80" rx="4" fill="#EAEAEA"/>
+        
+        <text x="100" y="25" font-family="Inter" font-size="16" font-weight="600" fill="#064232">云涧书局</text>
+        
+        <g transform="translate(100, 50)">
+          <text x="0" y="0" font-family="Inter" font-size="12" fill="#98948F">⭐ 4.9</text>
+          <text x="80" y="0" font-family="Inter" font-size="12" fill="#98948F">¥80/人</text>
+        </g>
+        
+        <rect x="100" y="70" width="50" height="20" rx="10" fill="#F4948B" opacity="0.1"/>
+        <text x="125" y="82" text-anchor="middle" font-family="Inter" font-size="10" fill="#F4948B">我去过</text>
+      </g>
+    </g>
+    
+    <use href="#bottomNav" x="0" y="728"/>
+  </g>
+  
+  <g transform="translate(450, 1800)">
+    <!-- 我的页面 -->
+    <rect x="0" y="0" width="375" height="812" rx="20" fill="#FFFFFF" stroke="#EAEAEA" stroke-width="2"/>
+    <text x="187.5" y="30" text-anchor="middle" font-family="Inter" font-size="16" font-weight="600" fill="#064232">我的页面</text>
+    
+    <use href="#iosStatusBar" x="0" y="40"/>
+    
+    <!-- 我的页面内容 -->
+    <g transform="translate(20, 90)">
+      <!-- 个人信息 -->
+      <circle cx="167.5" cy="60" r="40" fill="#F7F6F5"/>
+      <text x="167.5" y="150" text-anchor="middle" font-family="Inter" font-size="20" font-weight="600" fill="#064232">用户昵称</text>
+      <text x="167.5" y="175" text-anchor="middle" font-family="Inter" font-size="14" fill="#98948F">一个爱带娃疯玩的80后妈妈</text>
+      
+      <!-- 数据统计 -->
+      <g transform="translate(80, 200)">
+        <text x="0" y="0" text-anchor="middle" font-family="Inter" font-size="18" font-weight="600" fill="#064232">128</text>
+        <text x="0" y="20" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">足迹</text>
+        
+        <text x="80" y="0" text-anchor="middle" font-family="Inter" font-size="18" font-weight="600" fill="#064232">1.2k</text>
+        <text x="80" y="20" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">获赞</text>
+        
+        <text x="160" y="0" text-anchor="middle" font-family="Inter" font-size="18" font-weight="600" fill="#064232">86</text>
+        <text x="160" y="20" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">关注</text>
+      </g>
+      
+      <!-- 常用功能 -->
+      <g transform="translate(20, 250)">
+        <g transform="translate(0, 0)">
+          <circle cx="25" cy="25" r="20" fill="#F7F6F5"/>
+          <text x="25" y="60" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">浏览历史</text>
+        </g>
+        <g transform="translate(80, 0)">
+          <circle cx="25" cy="25" r="20" fill="#F7F6F5"/>
+          <text x="25" y="60" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">我的订单</text>
+        </g>
+        <g transform="translate(160, 0)">
+          <circle cx="25" cy="25" r="20" fill="#F7F6F5"/>
+          <text x="25" y="60" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">联系客服</text>
+        </g>
+        <g transform="translate(240, 0)">
+          <circle cx="25" cy="25" r="20" fill="#F7F6F5"/>
+          <text x="25" y="60" text-anchor="middle" font-family="Inter" font-size="12" fill="#98948F">设置</text>
+        </g>
+      </g>
+    </g>
+    
+    <use href="#bottomNav" x="0" y="728"/>
+  </g>
+  
+  <!-- 使用说明 -->
+  <g transform="translate(850, 1800)">
+    <rect x="0" y="0" width="375" height="812" rx="20" fill="#F7F6F5" stroke="#EAEAEA" stroke-width="2"/>
+    <text x="187.5" y="50" text-anchor="middle" font-family="Inter" font-size="20" font-weight="600" fill="#064232">Figma导入说明</text>
+    
+    <g transform="translate(30, 100)">
+      <text x="0" y="0" font-family="Inter" font-size="16" font-weight="600" fill="#064232">导入步骤：</text>
+      
+      <g transform="translate(0, 40)">
+        <circle cx="10" cy="10" r="8" fill="#F4948B"/>
+        <text x="30" y="15" font-family="Inter" font-size="14" fill="#064232">1. 打开Figma</text>
+      </g>
+      
+      <g transform="translate(0, 70)">
+        <circle cx="10" cy="10" r="8" fill="#F4948B"/>
+        <text x="30" y="15" font-family="Inter" font-size="14" fill="#064232">2. 文件 → 导入 → SVG</text>
+      </g>
+      
+      <g transform="translate(0, 100)">
+        <circle cx="10" cy="10" r="8" fill="#F4948B"/>
+        <text x="30" y="15" font-family="Inter" font-size="14" fill="#064232">3. 选择此SVG文件</text>
+      </g>
+      
+      <g transform="translate(0, 130)">
+        <circle cx="10" cy="10" r="8" fill="#F4948B"/>
+        <text x="30" y="15" font-family="Inter" font-size="14" fill="#064232">4. 调整画板布局</text>
+      </g>
+      
+      <text x="0" y="200" font-family="Inter" font-size="14" fill="#98948F" width="315">
+        每个界面都是独立的SVG组，可以在Figma中解组后单独编辑。
+        所有元素都使用设计系统的颜色变量，便于后续设计工作。
+      </text>
+    </g>
+  </g>
+</svg>

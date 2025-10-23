@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发现周末 - 即时奖励</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js"></script>
+  <style>
+    .reward-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://source.unsplash.com/random/375x812/?bookstore,nature');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.8;
+      z-index: -1;
+    }
+    
+    .reward-card {
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: var(--border-radius-lg);
+      padding: var(--spacing-4);
+      margin: var(--spacing-4);
+      box-shadow: var(--box-shadow-md);
+    }
+    
+    .loading-animation {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      background-color: var(--color-background-default);
+    }
+    
+    .loading-icon {
+      width: 50px;
+      height: 50px;
+      border: 5px solid var(--color-neutral-200);
+      border-top: 5px solid var(--color-primary-500);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: var(--spacing-4);
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .reward-content {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <div class="status-bar-time">9:41</div>
+      <div class="status-bar-icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="content">
+      <!-- 加载动画 -->
+      <div class="loading-animation" id="loading">
+        <div class="loading-icon"></div>
+        <p>正在为你搜寻第一个宝藏...</p>
+      </div>
+      
+      <!-- 奖励内容 -->
+      <div class="reward-content" id="reward">
+        <div class="reward-bg"></div>
+        
+        <div class="onboarding" style="height: auto;">
+          <div class="reward-card mt-5">
+            <div class="tag mb-2">你的第一个周末灵感</div>
+            <h1 class="onboarding-title" style="font-size: 24px;">云涧书局</h1>
+            <p class="mb-3">藏在半山腰的玻璃房子，适合看书发呆一整天</p>
+            
+            <div class="flex items-center gap-2 mb-2">
+              <i class="fas fa-car" style="color: var(--color-text-secondary);"></i>
+              <span style="color: var(--color-text-secondary);">离你约 45 分钟车程</span>
+            </div>
+            
+            <div class="flex gap-2 mb-3">
+              <div class="tag tag-sm">人少景美</div>
+              <div class="tag tag-sm">亲子友好</div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <i class="fas fa-smile" style="color: #4CAF50;"></i>
+              <span style="color: #4CAF50;">本周末出行指数：畅通</span>
+            </div>
+          </div>
+          
+          <div class="onboarding-footer" style="position: absolute; bottom: 0; left: 0; right: 0; padding: var(--spacing-4);">
+            <button id="start-btn" class="btn btn-primary btn-lg w-full mb-3">太棒了！开启我的发现之旅</button>
+            
+            <div class="dots-container">
+              <div class="dot"></div>
+              <div class="dot"></div>
+              <div class="dot active"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 模拟加载过程
+    setTimeout(function() {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('reward').style.display = 'block';
+    }, 2000);
+    
+    // 开始按钮点击事件
+    document.getElementById('start-btn').addEventListener('click', function() {
+      window.location.href = 'index.html'; // 跳转到首页
+    });
+  </script>
+</body>
+</html>

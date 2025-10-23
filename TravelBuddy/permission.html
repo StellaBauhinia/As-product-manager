@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发现周末 - 位置授权</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js"></script>
+</head>
+<body>
+  <div class="phone-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <div class="status-bar-time">9:41</div>
+      <div class="status-bar-icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="content">
+      <div class="onboarding">
+        <div class="onboarding-content">
+          <!-- 地图与位置插图 -->
+          <svg class="onboarding-image" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- 简约地图背景 -->
+            <rect x="20" y="30" width="160" height="120" fill="#E6EBEA" rx="8" />
+            <path d="M20,80 L180,80" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="5,5" />
+            <path d="M100,30 L100,150" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="5,5" />
+            
+            <!-- 地图上的问号图标 -->
+            <circle cx="60" cy="50" r="8" fill="#F4948B" opacity="0.8" />
+            <text x="60" y="54" font-size="12" fill="#FFFFFF" text-anchor="middle">?</text>
+            
+            <circle cx="140" cy="60" r="8" fill="#F4948B" opacity="0.8" />
+            <text x="140" y="64" font-size="12" fill="#FFFFFF" text-anchor="middle">?</text>
+            
+            <circle cx="50" cy="110" r="8" fill="#F4948B" opacity="0.8" />
+            <text x="50" y="114" font-size="12" fill="#FFFFFF" text-anchor="middle">?</text>
+            
+            <circle cx="150" cy="120" r="8" fill="#F4948B" opacity="0.8" />
+            <text x="150" y="124" font-size="12" fill="#FFFFFF" text-anchor="middle">?</text>
+            
+            <circle cx="120" cy="90" r="8" fill="#F4948B" opacity="0.8" />
+            <text x="120" y="94" font-size="12" fill="#FFFFFF" text-anchor="middle">?</text>
+            
+            <!-- IP形象（站在地图中心） -->
+            <circle cx="100" cy="80" r="15" fill="#FFFFFF" stroke="#064232" stroke-width="1" />
+            
+            <!-- 望远镜 -->
+            <rect x="95" y="75" width="10" height="5" fill="#064232" rx="1" />
+            <circle cx="95" cy="77.5" r="3" fill="#064232" />
+            <circle cx="105" cy="77.5" r="3" fill="#064232" />
+          </svg>
+
+          <h1 class="onboarding-title">惊喜，就在你身边1小时圈内</h1>
+          <p class="onboarding-subtitle">为了给你推荐最合适的宝藏目的地，我们需要知道你在哪里。你的位置信息仅用于推荐，我们会严格保密哦！</p>
+        </div>
+
+        <div class="onboarding-footer">
+          <button id="location-btn" class="btn btn-primary btn-lg w-full mb-3">好呀，开启定位</button>
+          <a href="#" class="btn btn-text w-full">手动选择城市 ></a>
+          
+          <div class="dots-container mt-4">
+            <div class="dot"></div>
+            <div class="dot active"></div>
+            <div class="dot"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 定位按钮点击事件
+    document.getElementById('location-btn').addEventListener('click', function() {
+      // 模拟定位授权
+      setTimeout(function() {
+        window.location.href = 'reward.html'; // 跳转到奖励页
+      }, 1000);
+    });
+
+    // 手动选择城市点击事件
+    document.querySelector('.btn-text').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = 'reward.html'; // 跳转到奖励页
+    });
+  </script>
+</body>
+</html>

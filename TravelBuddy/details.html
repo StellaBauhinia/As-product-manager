@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发现周末 - 详情</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js"></script>
+  <style>
+    .detail-header {
+      position: relative;
+      height: 250px;
+    }
+    
+    .detail-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .detail-header-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5));
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: var(--spacing-3);
+      color: white;
+    }
+    
+    .header-actions {
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .header-action-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    
+    .detail-info {
+      padding: var(--spacing-3);
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+    
+    .detail-title {
+      font-size: var(--font-size-h2);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--spacing-2);
+    }
+    
+    .detail-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: var(--spacing-2);
+    }
+    
+    .detail-rating {
+      display: flex;
+      align-items: center;
+    }
+    
+    .detail-rating i {
+      color: var(--color-warning);
+      margin-right: 4px;
+    }
+    
+    .detail-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-2);
+      margin-bottom: var(--spacing-2);
+    }
+    
+    .detail-section {
+      padding: var(--spacing-3);
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+    
+    .section-title {
+      font-size: var(--font-size-h3);
+      font-weight: var(--font-weight-medium);
+      margin-bottom: var(--spacing-2);
+      display: flex;
+      align-items: center;
+    }
+    
+    .section-title i {
+      margin-right: var(--spacing-2);
+      color: var(--color-primary-500);
+    }
+    
+    .detail-map {
+      width: 100%;
+      height: 180px;
+      background-color: var(--color-neutral-200);
+      border-radius: var(--border-radius-md);
+      margin-top: var(--spacing-2);
+      background-image: url('https://source.unsplash.com/random/375x180/?map');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    
+    .map-marker {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--color-primary-500);
+      font-size: 24px;
+    }
+    
+    .detail-gallery {
+      display: flex;
+      overflow-x: auto;
+      gap: var(--spacing-2);
+      padding: var(--spacing-2) 0;
+      scrollbar-width: none;
+    }
+    
+    .detail-gallery::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .gallery-item {
+      width: 140px;
+      height: 100px;
+      border-radius: var(--border-radius-md);
+      flex-shrink: 0;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .review-item {
+      margin-bottom: var(--spacing-3);
+    }
+    
+    .review-header {
+      display: flex;
+      margin-bottom: var(--spacing-2);
+    }
+    
+    .review-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: var(--spacing-2);
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .review-rating {
+      display: flex;
+      margin-top: 2px;
+    }
+    
+    .review-rating i {
+      color: var(--color-warning);
+      font-size: 12px;
+      margin-right: 2px;
+    }
+    
+    .review-images {
+      display: flex;
+      gap: var(--spacing-2);
+      margin-top: var(--spacing-2);
+    }
+    
+    .review-image {
+      width: 80px;
+      height: 80px;
+      border-radius: var(--border-radius-sm);
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .bottom-actions {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: var(--spacing-2) var(--spacing-3);
+      background-color: white;
+      border-top: 1px solid var(--color-neutral-200);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+    
+    .action-price {
+      font-size: var(--font-size-h3);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-primary-500);
+    }
+    
+    .action-price small {
+      font-size: var(--font-size-caption);
+      font-weight: var(--font-weight-regular);
+      color: var(--color-text-secondary);
+    }
+    
+    .similar-items {
+      display: flex;
+      overflow-x: auto;
+      gap: var(--spacing-3);
+      padding: var(--spacing-2) 0;
+      scrollbar-width: none;
+    }
+    
+    .similar-items::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .similar-item {
+      width: 160px;
+      flex-shrink: 0;
+    }
+    
+    .similar-image {
+      width: 100%;
+      height: 100px;
+      border-radius: var(--border-radius-md);
+      background-size: cover;
+      background-position: center;
+      margin-bottom: var(--spacing-1);
+    }
+    
+    .similar-title {
+      font-size: var(--font-size-body);
+      font-weight: var(--font-weight-medium);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .similar-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--font-size-caption);
+      color: var(--color-text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <div class="status-bar-time">9:41</div>
+      <div class="status-bar-icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="content">
+      <!-- 详情页头部 -->
+      <div class="detail-header">
+        <img src="https://source.unsplash.com/random/375x250/?lake,mountain" alt="莫干山隐秘湖泊" class="detail-image">
+        <div class="detail-header-overlay">
+          <div class="header-actions">
+            <a href="javascript:history.back()" class="header-action-btn">
+              <i class="fas fa-arrow-left"></i>
+            </a>
+            <div class="header-action-btn">
+              <i class="fas fa-share-alt"></i>
+            </div>
+          </div>
+          <div class="tag">自然风光</div>
+        </div>
+      </div>
+      
+      <!-- 详情信息 -->
+      <div class="detail-info">
+        <h1 class="detail-title">莫干山隐秘湖泊，周末徒步好去处</h1>
+        <div class="detail-meta">
+          <div class="detail-rating">
+            <i class="fas fa-star"></i>
+            <span>4.8</span>
+            <span style="color: var(--color-text-secondary); margin-left: var(--spacing-1);">(128条评价)</span>
+          </div>
+          <div class="detail-distance">距离市中心45分钟</div>
+        </div>
+        <div class="detail-tags">
+          <div class="tag">徒步</div>
+          <div class="tag">湖泊</div>
+          <div class="tag">自然</div>
+          <div class="tag">摄影</div>
+          <div class="tag">亲子</div>
+        </div>
+      </div>
+      
+      <!-- 详情描述 -->
+      <div class="detail-section">
+        <h2 class="section-title">
+          <i class="fas fa-info-circle"></i>
+          详情描述
+        </h2>
+        <p>这是一处隐藏在莫干山深处的天然湖泊，四周环绕着茂密的森林和奇特的山石。湖水清澈见底，倒映着蓝天白云，是周末放松身心的绝佳去处。</p>
+        <p>这里有完善的徒步道路，全程约5公里，适合各年龄段的游客。沿途风景优美，有多处观景平台可以俯瞰整个湖区美景。</p>
+        <p>春季和秋季是最佳游览时间，夏季树荫遮蔽，也是避暑的好选择。</p>
+      </div>
+      
+      <!-- 地理位置 -->
+      <div class="detail-section">
+        <h2 class="section-title">
+          <i class="fas fa-map-marker-alt"></i>
+          地理位置
+        </h2>
+        <p>浙江省湖州市德清县莫干山镇北部，距离莫干山景区约15公里</p>
+        <div class="detail-map">
+          <i class="fas fa-map-marker-alt map-marker"></i>
+        </div>
+      </div>
+      
+      <!-- 图片展示 -->
+      <div class="detail-section">
+        <h2 class="section-title">
+          <i class="fas fa-images"></i>
+          图片展示
+        </h2>
+        <div class="detail-gallery">
+          <div class="gallery-item" style="background-image: url('https://source.unsplash.com/random/140x100/?lake,1');"></div>
+          <div class="gallery-item" style="background-image: url('https://source.unsplash.com/random/140x100/?mountain,2');"></div>
+          <div class="gallery-item" style="background-image: url('https://source.unsplash.com/random/140x100/?forest,3');"></div>
+          <div class="gallery-item" style="background-image: url('https://source.unsplash.com/random/140x100/?hiking,4');"></div>
+          <div class="gallery-item" style="background-image: url('https://source.unsplash.com/random/140x100/?nature,5');"></div>
+        </div>
+      </div>
+      
+      <!-- 用户评价 -->
+      <div class="detail-section">
+        <h2 class="section-title">
+          <i class="fas fa-comment-alt"></i>
+          用户评价
+        </h2>
+        
+        <div class="review-item">
+          <div class="review-header">
+            <div class="review-avatar" style="background-image: url('https://source.unsplash.com/random/40x40/?person,1');"></div>
+            <div>
+              <div style="font-weight: var(--font-weight-medium);">小鱼儿</div>
+              <div class="review-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+              <div style="font-size: var(--font-size-caption); color: var(--color-text-secondary);">2023-05-15</div>
+            </div>
+          </div>
+          <p>风景太美了！徒步路线也很清晰，非常适合带孩子来。湖水清澈见底，拍照效果一流！强烈推荐周末来这里放松一下。</p>
+          <div class="review-images">
+            <div class="review-image" style="background-image: url('https://source.unsplash.com/random/80x80/?lake,review1');"></div>
+            <div class="review-image" style="background-image: url('https://source.unsplash.com/random/80x80/?picnic,review2');"></div>
+          </div>
+        </div>
+        
+        <div class="review-item">
+          <div class="review-header">
+            <div class="review-avatar" style="background-image: url('https://source.unsplash.com/random/40x40/?person,2');"></div>
+            <div>
+              <div style="font-weight: var(--font-weight-medium);">阳光灿烂</div>
+              <div class="review-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+              </div>
+              <div style="font-size: var(--font-size-caption); color: var(--color-text-secondary);">2023-04-30</div>
+            </div>
+          </div>
+          <p>环境很好，但是周末人有点多，建议早点去。停车场有点小，需要提前规划。总体来说还是很值得一去的地方。</p>
+        </div>
+      </div>
+      
+      <!-- 相似推荐 -->
+      <div class="detail-section">
+        <h2 class="section-title">
+          <i class="fas fa-thumbs-up"></i>
+          相似推荐
+        </h2>
+        <div class="similar-items">
+          <div class="similar-item">
+            <div class="similar-image" style="background-image: url('https://source.unsplash.com/random/160x100/?waterfall');"></div>
+            <div class="similar-title">九溪烟树瀑布群</div>
+            <div class="similar-meta">
+              <div>4.7分</div>
+              <div>60分钟</div>
+            </div>
+          </div>
+          <div class="similar-item">
+            <div class="similar-image" style="background-image: url('https://source.unsplash.com/random/160x100/?tea,mountain');"></div>
+            <div class="similar-title">龙井茶园徒步</div>
+            <div class="similar-meta">
+              <div>4.5分</div>
+              <div>50分钟</div>
+            </div>
+          </div>
+          <div class="similar-item">
+            <div class="similar-image" style="background-image: url('https://source.unsplash.com/random/160x100/?bamboo,forest');"></div>
+            <div class="similar-title">竹海幽径</div>
+            <div class="similar-meta">
+              <div>4.6分</div>
+              <div>40分钟</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 底部占位 -->
+      <div style="height: 80px;"></div>
+    </div>
+    
+    <!-- 底部操作栏 -->
+    <div class="bottom-actions">
+      <div>
+        <div class="action-price">¥0 <small>免费</small></div>
+      </div>
+      <div class="flex gap-2">
+        <button class="btn btn-secondary">
+          <i class="far fa-bookmark"></i>
+          收藏
+        </button>
+        <button class="btn btn-primary">
+          <i class="fas fa-map-marker-alt"></i>
+          导航前往
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

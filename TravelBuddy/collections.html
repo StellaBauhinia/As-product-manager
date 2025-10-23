@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发现周末 - 收藏</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js"></script>
+  <style>
+    .collections-header {
+      padding: var(--spacing-3);
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+    
+    .collections-title {
+      font-size: var(--font-size-h2);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--spacing-1);
+    }
+    
+    .collections-subtitle {
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-body);
+    }
+    
+    .collection-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+    
+    .collection-tab {
+      flex: 1;
+      text-align: center;
+      padding: var(--spacing-2) 0;
+      font-size: var(--font-size-body);
+      color: var(--color-text-secondary);
+      position: relative;
+    }
+    
+    .collection-tab.active {
+      color: var(--color-primary-500);
+      font-weight: var(--font-weight-medium);
+    }
+    
+    .collection-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 25%;
+      width: 50%;
+      height: 2px;
+      background-color: var(--color-primary-500);
+    }
+    
+    .collection-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-3);
+      padding: var(--spacing-3);
+    }
+    
+    .collection-card {
+      border-radius: var(--border-radius-md);
+      overflow: hidden;
+      box-shadow: var(--box-shadow-sm);
+      background-color: var(--color-background-card);
+    }
+    
+    .collection-image {
+      width: 100%;
+      height: 120px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    
+    .collection-content {
+      padding: var(--spacing-2);
+    }
+    
+    .collection-title {
+      font-size: var(--font-size-body);
+      font-weight: var(--font-weight-medium);
+      margin-bottom: var(--spacing-1);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .collection-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: var(--font-size-caption);
+      color: var(--color-text-secondary);
+    }
+    
+    .collection-folder {
+      background-color: var(--color-background-card);
+      border-radius: var(--border-radius-md);
+      padding: var(--spacing-3);
+      margin-bottom: var(--spacing-3);
+      box-shadow: var(--box-shadow-sm);
+    }
+    
+    .folder-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--spacing-2);
+    }
+    
+    .folder-title {
+      font-size: var(--font-size-h3);
+      font-weight: var(--font-weight-medium);
+    }
+    
+    .folder-count {
+      color: var(--color-text-secondary);
+      font-size: var(--font-size-caption);
+    }
+    
+    .folder-preview {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-1);
+      margin-bottom: var(--spacing-2);
+    }
+    
+    .preview-image {
+      width: 100%;
+      padding-top: 100%; /* 1:1 Aspect Ratio */
+      background-size: cover;
+      background-position: center;
+      border-radius: var(--border-radius-sm);
+    }
+    
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-6) var(--spacing-3);
+      text-align: center;
+    }
+    
+    .empty-icon {
+      font-size: 48px;
+      color: var(--color-neutral-300);
+      margin-bottom: var(--spacing-3);
+    }
+    
+    .empty-title {
+      font-size: var(--font-size-h3);
+      font-weight: var(--font-weight-medium);
+      margin-bottom: var(--spacing-2);
+    }
+    
+    .empty-description {
+      color: var(--color-text-secondary);
+      margin-bottom: var(--spacing-4);
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <div class="status-bar-time">9:41</div>
+      <div class="status-bar-icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="content">
+      <!-- 收藏页头部 -->
+      <div class="collections-header">
+        <h1 class="collections-title">我的收藏</h1>
+        <p class="collections-subtitle">保存你喜欢的地点和体验</p>
+      </div>
+      
+      <!-- 收藏分类标签 -->
+      <div class="collection-tabs">
+        <div class="collection-tab active">地点</div>
+        <div class="collection-tab">攻略</div>
+        <div class="collection-tab">文章</div>
+      </div>
+      
+      <!-- 收藏夹 -->
+      <div style="padding: var(--spacing-3);">
+        <div class="collection-folder">
+          <div class="folder-header">
+            <h3 class="folder-title">周末出游计划</h3>
+            <span class="folder-count">5个地点</span>
+          </div>
+          <div class="folder-preview">
+            <div class="preview-image" style="background-image: url('https://source.unsplash.com/random/80x80/?lake');"></div>
+            <div class="preview-image" style="background-image: url('https://source.unsplash.com/random/80x80/?mountain');"></div>
+            <div class="preview-image" style="background-image: url('https://source.unsplash.com/random/80x80/?cafe');"></div>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>最近更新：昨天</span>
+            <i class="fas fa-chevron-right" style="color: var(--color-text-secondary);"></i>
+          </div>
+        </div>
+        
+        <div class="collection-folder">
+          <div class="folder-header">
+            <h3 class="folder-title">亲子好去处</h3>
+            <span class="folder-count">3个地点</span>
+          </div>
+          <div class="folder-preview">
+            <div class="preview-image" style="background-image: url('https://source.unsplash.com/random/80x80/?playground');"></div>
+            <div class="preview-image" style="background-image: url('https://source.unsplash.com/random/80x80/?farm');"></div>
+            <div class="preview-image" style="background-image: url('https://source.unsplash.com/random/80x80/?park');"></div>
+          </div>
+          <div class="flex justify-between items-center">
+            <span>最近更新：3天前</span>
+            <i class="fas fa-chevron-right" style="color: var(--color-text-secondary);"></i>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 收藏列表 -->
+      <h3 style="padding: 0 var(--spacing-3) var(--spacing-2); font-size: var(--font-size-h3);">最近收藏</h3>
+      <div class="collection-grid">
+        <!-- 收藏项1 -->
+        <a href="details.html" class="collection-card">
+          <div class="collection-image" style="background-image: url('https://source.unsplash.com/random/180x120/?lake,mountain');">
+            <div style="position: absolute; top: var(--spacing-2); right: var(--spacing-2);">
+              <i class="fas fa-bookmark" style="color: var(--color-primary-500);"></i>
+            </div>
+          </div>
+          <div class="collection-content">
+            <div class="collection-title">莫干山隐秘湖泊，周末徒步好去处</div>
+            <div class="collection-meta">
+              <div>45分钟</div>
+              <div>3天前收藏</div>
+            </div>
+          </div>
+        </a>
+        
+        <!-- 收藏项2 -->
+        <a href="details.html" class="collection-card">
+          <div class="collection-image" style="background-image: url('https://source.unsplash.com/random/180x120/?cafe,garden');">
+            <div style="position: absolute; top: var(--spacing-2); right: var(--spacing-2);">
+              <i class="fas fa-bookmark" style="color: var(--color-primary-500);"></i>
+            </div>
+          </div>
+          <div class="collection-content">
+            <div class="collection-title">城郊花园咖啡馆，周末下午茶首选</div>
+            <div class="collection-meta">
+              <div>30分钟</div>
+              <div>昨天收藏</div>
+            </div>
+          </div>
+        </a>
+        
+        <!-- 收藏项3 -->
+        <a href="details.html" class="collection-card">
+          <div class="collection-image" style="background-image: url('https://source.unsplash.com/random/180x120/?hotspring');">
+            <div style="position: absolute; top: var(--spacing-2); right: var(--spacing-2);">
+              <i class="fas fa-bookmark" style="color: var(--color-primary-500);"></i>
+            </div>
+          </div>
+          <div class="collection-content">
+            <div class="collection-title">森林温泉，放松身心的绝佳选择</div>
+            <div class="collection-meta">
+              <div>70分钟</div>
+              <div>今天收藏</div>
+            </div>
+          </div>
+        </a>
+        
+        <!-- 收藏项4 -->
+        <a href="details.html" class="collection-card">
+          <div class="collection-image" style="background-image: url('https://source.unsplash.com/random/180x120/?cycling,trail');">
+            <div style="position: absolute; top: var(--spacing-2); right: var(--spacing-2);">
+              <i class="fas fa-bookmark" style="color: var(--color-primary-500);"></i>
+            </div>
+          </div>
+          <div class="collection-content">
+            <div class="collection-title">环湖自行车道，周末骑行好去处</div>
+            <div class="collection-meta">
+              <div>40分钟</div>
+              <div>5天前收藏</div>
+            </div>
+          </div>
+        </a>
+      </div>
+      
+      <!-- 攻略标签页（默认隐藏） -->
+      <div style="display: none;">
+        <div class="empty-state">
+          <i class="far fa-compass empty-icon"></i>
+          <h3 class="empty-title">暂无收藏的攻略</h3>
+          <p class="empty-description">去发现页浏览更多精彩内容，收藏你喜欢的攻略吧</p>
+          <a href="discovery.html" class="btn btn-primary">去发现</a>
+        </div>
+      </div>
+      
+      <!-- 文章标签页（默认隐藏） -->
+      <div style="display: none;">
+        <div class="empty-state">
+          <i class="far fa-file-alt empty-icon"></i>
+          <h3 class="empty-title">暂无收藏的文章</h3>
+          <p class="empty-description">去发现页浏览更多精彩内容，收藏你喜欢的文章吧</p>
+          <a href="discovery.html" class="btn btn-primary">去发现</a>
+        </div>
+      </div>
+      
+      <!-- 底部导航栏占位 -->
+      <div style="height: 60px;"></div>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <div class="bottom-nav">
+      <a href="index.html" class="nav-item">
+        <i class="fas fa-home"></i>
+        <span>首页</span>
+      </a>
+      <a href="discovery.html" class="nav-item">
+        <i class="fas fa-compass"></i>
+        <span>发现</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-plus-circle"></i>
+        <span>发布</span>
+      </a>
+      <a href="collections.html" class="nav-item active">
+        <i class="fas fa-bookmark"></i>
+        <span>收藏</span>
+      </a>
+      <a href="profile.html" class="nav-item">
+        <i class="fas fa-user"></i>
+        <span>我的</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

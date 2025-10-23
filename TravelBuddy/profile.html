@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发现周末 - 个人中心</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js"></script>
+  <style>
+    .profile-header {
+      padding: var(--spacing-4) var(--spacing-3);
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+    
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      margin-right: var(--spacing-3);
+      border: 2px solid var(--color-primary-500);
+    }
+    
+    .profile-info {
+      flex-grow: 1;
+    }
+    
+    .profile-name {
+      font-size: var(--font-size-h2);
+      font-weight: var(--font-weight-bold);
+      margin-bottom: var(--spacing-1);
+    }
+    
+    .profile-bio {
+      color: var(--color-text-secondary);
+      margin-bottom: var(--spacing-2);
+    }
+    
+    .profile-stats {
+      display: flex;
+      gap: var(--spacing-4);
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-weight: var(--font-weight-bold);
+    }
+    
+    .stat-label {
+      font-size: var(--font-size-caption);
+      color: var(--color-text-secondary);
+    }
+    
+    .profile-actions {
+      display: flex;
+      padding: var(--spacing-3);
+      gap: var(--spacing-2);
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+    
+    .profile-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+    
+    .profile-tab {
+      flex: 1;
+      text-align: center;
+      padding: var(--spacing-2) 0;
+      font-size: var(--font-size-body);
+      color: var(--color-text-secondary);
+      position: relative;
+    }
+    
+    .profile-tab.active {
+      color: var(--color-primary-500);
+      font-weight: var(--font-weight-medium);
+    }
+    
+    .profile-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 25%;
+      width: 50%;
+      height: 2px;
+      background-color: var(--color-primary-500);
+    }
+    
+    .post-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background-color: var(--color-neutral-200);
+    }
+    
+    .post-item {
+      padding-top: 100%; /* 1:1 Aspect Ratio */
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    
+    .post-overlay {
+      position: absolute;
+      bottom: var(--spacing-2);
+      right: var(--spacing-2);
+      color: white;
+      display: flex;
+      align-items: center;
+      font-size: var(--font-size-caption);
+    }
+    
+    .post-overlay i {
+      margin-right: 2px;
+    }
+    
+    .menu-section {
+      padding: var(--spacing-2) 0;
+      border-bottom: 1px solid var(--color-neutral-200);
+    }
+    
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--spacing-3);
+      color: var(--color-text-primary);
+    }
+    
+    .menu-item-left {
+      display: flex;
+      align-items: center;
+    }
+    
+    .menu-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: var(--spacing-3);
+      color: var(--color-primary-500);
+    }
+    
+    .menu-arrow {
+      color: var(--color-text-secondary);
+    }
+    
+    .badge {
+      background-color: var(--color-error);
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      margin-right: var(--spacing-2);
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-container">
+    <!-- 状态栏 -->
+    <div class="status-bar">
+      <div class="status-bar-time">9:41</div>
+      <div class="status-bar-icons">
+        <i class="fas fa-signal"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-battery-full"></i>
+      </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="content">
+      <!-- 个人资料头部 -->
+      <div class="profile-header">
+        <div class="profile-avatar" style="background-image: url('https://source.unsplash.com/random/80x80/?person');"></div>
+        <div class="profile-info">
+          <h1 class="profile-name">小鱼儿</h1>
+          <p class="profile-bio">周末探索家 | 摄影爱好者 | 美食达人</p>
+          <div class="profile-stats">
+            <div class="stat-item">
+              <div class="stat-value">128</div>
+              <div class="stat-label">关注</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">256</div>
+              <div class="stat-label">粉丝</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">32</div>
+              <div class="stat-label">分享</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 个人资料操作 -->
+      <div class="profile-actions">
+        <button class="btn btn-primary" style="flex: 1;">编辑资料</button>
+        <button class="btn btn-secondary" style="width: 40px; padding: 0;">
+          <i class="fas fa-share-alt"></i>
+        </button>
+      </div>
+      
+      <!-- 个人资料标签页 -->
+      <div class="profile-tabs">
+        <div class="profile-tab active">
+          <i class="fas fa-th"></i>
+          <span>分享</span>
+        </div>
+        <div class="profile-tab">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>足迹</span>
+        </div>
+        <div class="profile-tab">
+          <i class="fas fa-heart"></i>
+          <span>喜欢</span>
+        </div>
+      </div>
+      
+      <!-- 分享内容网格 -->
+      <div class="post-grid">
+        <div class="post-item" style="background-image: url('https://source.unsplash.com/random/120x120/?cafe');">
+          <div class="post-overlay">
+            <i class="fas fa-heart"></i>
+            <span>24</span>
+          </div>
+        </div>
+        <div class="post-item" style="background-image: url('https://source.unsplash.com/random/120x120/?mountain');">
+          <div class="post-overlay">
+            <i class="fas fa-heart"></i>
+            <span>36</span>
+          </div>
+        </div>
+        <div class="post-item" style="background-image: url('https://source.unsplash.com/random/120x120/?food');">
+          <div class="post-overlay">
+            <i class="fas fa-heart"></i>
+            <span>18</span>
+          </div>
+        </div>
+        <div class="post-item" style="background-image: url('https://source.unsplash.com/random/120x120/?lake');">
+          <div class="post-overlay">
+            <i class="fas fa-heart"></i>
+            <span>42</span>
+          </div>
+        </div>
+        <div class="post-item" style="background-image: url('https://source.unsplash.com/random/120x120/?camping');">
+          <div class="post-overlay">
+            <i class="fas fa-heart"></i>
+            <span>29</span>
+          </div>
+        </div>
+        <div class="post-item" style="background-image: url('https://source.unsplash.com/random/120x120/?picnic');">
+          <div class="post-overlay">
+            <i class="fas fa-heart"></i>
+            <span>15</span>
+          </div>
+        </div>
+        <div class="post-item" style="background-image: url('https://source.unsplash.com/random/120x120/?forest');">
+          <div class="post-overlay">
+            <i class="fas fa-heart"></i>
+            <span>31</span>
+          </div>
+        </div>
+        <div class="post-item" style="background-image: url('https://source.unsplash.com/random/120x120/?beach');">
+          <div class="post-overlay">
+            <i class="fas fa-heart"></i>
+            <span>27</span>
+          </div>
+        </div>
+        <div class="post-item" style="background-image: url('https://source.unsplash.com/random/120x120/?sunset');">
+          <div class="post-overlay">
+            <i class="fas fa-heart"></i>
+            <span>33</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 设置菜单 -->
+      <div class="menu-section">
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <div class="menu-icon">
+              <i class="fas fa-bell"></i>
+            </div>
+            <span>消息通知</span>
+          </div>
+          <div class="flex items-center">
+            <div class="badge">3</div>
+            <i class="fas fa-chevron-right menu-arrow"></i>
+          </div>
+        </div>
+        
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <div class="menu-icon">
+              <i class="fas fa-cog"></i>
+            </div>
+            <span>设置</span>
+          </div>
+          <i class="fas fa-chevron-right menu-arrow"></i>
+        </div>
+        
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <div class="menu-icon">
+              <i class="fas fa-question-circle"></i>
+            </div>
+            <span>帮助与反馈</span>
+          </div>
+          <i class="fas fa-chevron-right menu-arrow"></i>
+        </div>
+        
+        <div class="menu-item">
+          <div class="menu-item-left">
+            <div class="menu-icon">
+              <i class="fas fa-info-circle"></i>
+            </div>
+            <span>关于我们</span>
+          </div>
+          <i class="fas fa-chevron-right menu-arrow"></i>
+        </div>
+      </div>
+      
+      <!-- 底部导航栏占位 -->
+      <div style="height: 60px;"></div>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <div class="bottom-nav">
+      <a href="index.html" class="nav-item">
+        <i class="fas fa-home"></i>
+        <span>首页</span>
+      </a>
+      <a href="discovery.html" class="nav-item">
+        <i class="fas fa-compass"></i>
+        <span>发现</span>
+      </a>
+      <a href="#" class="nav-item">
+        <i class="fas fa-plus-circle"></i>
+        <span>发布</span>
+      </a>
+      <a href="collections.html" class="nav-item">
+        <i class="fas fa-bookmark"></i>
+        <span>收藏</span>
+      </a>
+      <a href="profile.html" class="nav-item active">
+        <i class="fas fa-user"></i>
+        <span>我的</span>
+      </a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="900" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .screen { fill: #FFFFFF; stroke: #EAEAEA; stroke-width: 2; rx: 20; }
+      .status-bar { fill: #FFFFFF; }
+      .content-bg { fill: #F7F6F5; }
+      .card { fill: #FFFFFF; rx: 8; stroke: #EAEAEA; stroke-width: 1; }
+      .button-primary { fill: #F4948B; rx: 8; }
+      .button-text { fill: #FFFFFF; font-family: Inter; font-weight: 500; }
+      .primary-text { fill: #064232; font-family: Inter; font-weight: 600; }
+      .secondary-text { fill: #98948F; font-family: Inter; }
+    </style>
+  </defs>
+
+  <!-- 页面标题 -->
+  <text x="600" y="30" text-anchor="middle" font-family="Inter" font-size="24" font-weight="600" fill="#064232">发现周末 - 引导流程原型</text>
+  <text x="600" y="55" text-anchor="middle" font-family="Inter" font-size="14" fill="#98948F">专为Figma导入优化的引导页面</text>
+
+  <!-- 引导页1：欢迎页 -->
+  <g id="onboarding-welcome" transform="translate(50, 80)">
+    <rect width="350" height="760" class="screen"/>
+    <text x="175" y="30" text-anchor="middle" class="primary-text" font-size="18">欢迎页</text>
+    
+    <!-- iOS状态栏 -->
+    <rect y="40" width="350" height="44" class="status-bar"/>
+    <text x="175" y="65" text-anchor="middle" font-family="Inter" font-size="15" font-weight="600" fill="#000000">9:41</text>
+    
+    <!-- 内容区域 -->
+    <circle cx="175" cy="200" r="40" class="content-bg"/>
+    <circle cx="175" cy="200" r="16" fill="#F4948B" opacity="0.3"/>
+    
+    <text x="175" y="280" text-anchor="middle" class="primary-text" font-size="22">每个周末，都值得期待</text>
+    <text x="175" y="310" text-anchor="middle" class="secondary-text" font-size="14">告别千篇一律的"宅"与"忙"</text>
+    <text x="175" y="330" text-anchor="middle" class="secondary-text" font-size="14">"发现周末"带你探索小众去处</text>
+    
+    <!-- 进度指示器 -->
+    <g transform="translate(155, 370)">
+      <circle cx="0" cy="0" r="6" fill="#064232"/>
+      <circle cx="20" cy="0" r="6" fill="#EAEAEA"/>
+      <circle cx="40" cy="0" r="6" fill="#EAEAEA"/>
+    </g>
+    
+    <text x="175" y="400" text-anchor="middle" class="secondary-text" font-size="12">左滑继续 →</text>
+  </g>
+
+  <!-- 引导页2：价值授权页 -->
+  <g id="onboarding-permission" transform="translate(450, 80)">
+    <rect width="350" height="760" class="screen"/>
+    <text x="175" y="30" text-anchor="middle" class="primary-text" font-size="18">价值授权页</text>
+    
+    <!-- iOS状态栏 -->
+    <rect y="40" width="350" height="44" class="status-bar"/>
+    <text x="175" y="65" text-anchor="middle" font-family="Inter" font-size="15" font-weight="600" fill="#000000">9:41</text>
+    
+    <!-- 内容区域 -->
+    <rect x="87.5" y="150" width="175" height="175" rx="12" class="content-bg"/>
+    <circle cx="175" cy="237.5" r="30" fill="#F4948B" opacity="0.2"/>
+    
+    <text x="175" y="370" text-anchor="middle" class="primary-text" font-size="20">惊喜，就在你身边1小时圈内</text>
+    <text x="175" y="400" text-anchor="middle" class="secondary-text" font-size="14">为了给你推荐最合适的宝藏目的地</text>
+    <text x="175" y="420" text-anchor="middle" class="secondary-text" font-size="14">我们需要知道你在哪里</text>
+    
+    <!-- 主按钮 -->
+    <rect x="75" y="450" width="200" height="44" class="button-primary"/>
+    <text x="175" y="478" text-anchor="middle" class="button-text" font-size="16">好呀，开启定位</text>
+    
+    <!-- 备用选项 -->
+    <text x="175" y="510" text-anchor="middle" class="secondary-text" font-size="14">手动选择城市 ></text>
+    
+    <!-- 进度指示器 -->
+    <g transform="translate(155, 540)">
+      <circle cx="0" cy="0" r="6" fill="#EAEAEA"/>
+      <circle cx="20" cy="0" r="6" fill="#064232"/>
+      <circle cx="40" cy="0" r="6" fill="#EAEAEA"/>
+    </g>
+  </g>
+
+  <!-- 引导页3：即时奖励页 -->
+  <g id="onboarding-reward" transform="translate(850, 80)">
+    <rect width="350" height="760" class="screen"/>
+    <text x="175" y="30" text-anchor="middle" class="primary-text" font-size="18">即时奖励页</text>
+    
+    <!-- iOS状态栏 -->
+    <rect y="40" width="350" height="44" class="status-bar"/>
+    <text x="175" y="65" text-anchor="middle" font-family="Inter" font-size="15" font-weight="600" fill="#000000">9:41</text>
+    
+    <!-- 背景图片区域 -->
+    <rect x="25" y="100" width="300" height="350" rx="12" class="content-bg"/>
+    
+    <!-- 加载动画 -->
+    <circle cx="175" cy="275" r="20" fill="#F4948B" opacity="0.5">
+      <animate attributeName="r" values="20;25;20" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text x="175" y="320" text-anchor="middle" class="secondary-text" font-size="14">正在为你搜寻第一个宝藏...</text>
+    
+    <!-- 信息卡片 -->
+    <rect x="25" y="470" width="300" height="200" rx="12" class="card"/>
+    
+    <!-- 标签 -->
+    <rect x="35" y="480" width="120" height="24" rx="12" fill="#064232"/>
+    <text x="40" y="495" font-family="Inter" font-size="12" font-weight="500" fill="#FFFFFF">你的第一个周末灵感</text>
+    
+    <!-- 标题 -->
+    <text x="35" y="530" class="primary-text" font-size="20">云涧书局</text>
+    <text x="35" y="555" class="secondary-text" font-size="14">藏在半山腰的玻璃房子，适合看书发呆一整天</text>
+    
+    <!-- 关键信息 -->
+    <g transform="translate(35, 580)">
+      <circle cx="0" cy="0" r="6" fill="#F4948B"/>
+      <text x="15" y="4" class="secondary-text" font-size="12">离你约 45 分钟车程</text>
+      
+      <circle cx="0" cy="20" r="6" fill="#98948F"/>
+      <text x="15" y="24" class="secondary-text" font-size="12">人少景美</text>
+    </g>
+    
+    <!-- 行动按钮 -->
+    <rect x="75" y="630" width="200" height="44" class="button-primary"/>
+    <text x="175" y="658" text-anchor="middle" class="button-text" font-size="16">太棒了！开启我的发现之旅</text>
+    
+    <!-- 进度指示器 -->
+    <g transform="translate(155, 690)">
+      <circle cx="0" cy="0" r="6" fill="#EAEAEA"/>
+      <circle cx="20" cy="0" r="6" fill="#EAEAEA"/>
+      <circle cx="40" cy="0" r="6" fill="#064232"/>
+    </g>
+  </g>
+
+  <!-- Figma导入说明 -->
+  <g id="figma-instructions" transform="translate(50, 860)">
+    <rect width="1100" height="30" fill="#F7F6F5" rx="4"/>
+    <text x="550" y="20" text-anchor="middle" font-family="Inter" font-size="12" fill="#064232">
+      Figma导入说明：文件 → 导入 → SVG → 选择此文件 → 调整画板布局
+    </text>
+  </g>
+
+  <!-- 设计说明 -->
+  <g transform="translate(50, 900)">
+    <text x="0" y="0" font-family="Inter" font-size="12" fill="#98948F">
+      设计优化：使用基础SVG元素，避免复杂嵌套，明确定位坐标，确保Figma兼容性
+    </text>
+  </g>
+</svg>
