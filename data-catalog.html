@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据目录 - 文旅可信数据空间</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://use.fontawesome.com/releases/v6.5.1/js/all.js"></script>
+    <style>
+        :root {
+            --color-primary: #008bf5;
+            --color-secondary: #00A1D6;
+            --color-gray-100: #F5F5F5;
+            --color-gray-200: #E5E5E5;
+            --color-gray-300: #D9D9D9;
+            --color-gray-400: #666666;
+            --color-gray-500: #3A3A3A;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            --transition-normal: 0.3s;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: white;
+            color: var(--color-gray-500);
+        }
+
+        .browser-bar {
+            height: 40px;
+            background: #ccc;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+            border-bottom: 1px solid var(--color-gray-300);
+        }
+
+        .browser-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .browser-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .browser-control.close { background: #FF5F57; }
+        .browser-control.minimize { background: #FFBD2E; }
+        .browser-control.maximize { background: #28CA42; }
+
+        .browser-url {
+            flex: 1;
+            text-align: center;
+            color: var(--color-gray-400);
+            font-size: 14px;
+        }
+
+        .nav-container {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid var(--color-gray-200);
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .nav-desktop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-mobile {
+            display: none;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-2xl);
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: var(--color-gray-400);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color var(--transition-normal);
+        }
+
+        .nav-link.active {
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        .language-switch {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--color-gray-400);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .lang-btn.active {
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .page-header {
+            background: var(--color-gray-100);
+            padding: var(--spacing-2xl) 0;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--color-gray-400);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .catalog-container {
+            max-width: 1200px;
+            margin: var(--spacing-2xl) auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .search-section {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .search-box {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .search-input {
+            flex: 1;
+            padding: var(--spacing-md);
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+        }
+
+        .search-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .search-btn:hover {
+            background: var(--color-secondary);
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+
+        .filter-tag {
+            background: var(--color-gray-100);
+            border: 1px solid var(--color-gray-200);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            color: var(--color-gray-500);
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .filter-tag.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .filter-tag:hover {
+            background: var(--color-gray-200);
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .data-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-gray-200);
+            transition: all var(--transition-normal);
+        }
+
+        .data-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .data-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .data-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--color-gray-100);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-md);
+            font-size: 20px;
+            color: var(--color-primary);
+        }
+
+        .data-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .data-provider {
+            color: var(--color-gray-400);
+            font-size: 14px;
+        }
+
+        .data-description {
+            color: var(--color-gray-400);
+            line-height: 1.5;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .data-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .meta-item {
+            text-align: center;
+        }
+
+        .meta-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+
+        .meta-label {
+            font-size: 12px;
+            color: var(--color-gray-400);
+        }
+
+        .data-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .data-tag {
+            background: var(--color-gray-100);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            color: var(--color-gray-500);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--spacing-2xl);
+            color: var(--color-gray-400);
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-gray-300);
+        }
+
+        @media (max-width: 768px) {
+            .nav-desktop {
+                flex-direction: column;
+                height: auto;
+                padding: var(--spacing-md) 0;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: var(--spacing-lg);
+            }
+
+            .search-box {
+                flex-direction: column;
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 浏览器地址栏 -->
+    <div class="browser-bar">
+        <div class="browser-controls">
+            <div class="browser-control close"></div>
+            <div class="browser-control minimize"></div>
+            <div class="browser-control maximize"></div>
+        </div>
+        <div class="browser-url">https://space.zjcaee.com/data-catalog</div>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="nav-container">
+        <div class="nav-content">
+            <nav class="nav-desktop">
+                <div class="logo">文旅可信数据空间</div>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">首页</a></li>
+                    <li><a href="technology.html" class="nav-link">技术能力</a></li>
+                    <li><a href="solutions.html" class="nav-link">解决方案</a></li>
+                    <li><a href="data-catalog.html" class="nav-link active">数据目录</a></li>
+                    <li><a href="form-basic.html" class="nav-link">申请试用</a></li>
+                </ul>
+            </nav>
+            
+            <nav class="nav-mobile">
+                <div class="logo">文旅可信数据空间</div>
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 页面头部 -->
+    <section class="page-header">
+        <h1 class="page-title">数据目录</h1>
+        <p class="page-subtitle">探索文旅行业可信数据资产，发现数据价值</p>
+    </section>
+
+    <!-- 数据目录内容 -->
+    <section class="catalog-container">
+        <!-- 搜索和筛选 -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="搜索数据产品...">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+            
+            <div class="filter-tags">
+                <span class="filter-tag active">全部</span>
+                <span class="filter-tag">游客数据</span>
+                <span class="filter-tag">景区数据</span>
+                <span class="filter-tag">消费数据</span>
+                <span class="filter-tag">交通数据</span>
+                <span class="filter-tag">天气数据</span>
+                <span class="filter-tag">文化数据</span>
+            </div>
+        </div>
+
+        <!-- 数据产品网格 -->
+        <div class="data-grid">
+            <!-- 数据产品1 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">游客画像分析数据</h3>
+                        <div class="data-provider">浙江省文旅厅</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    基于全省游客行为数据构建的用户画像，包含年龄、性别、消费偏好、
+                    游览轨迹等多维度信息，助力精准营销和服务优化。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">2.5M</div>
+                        <div class="meta-label">数据量</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">95%</div>
+                        <div class="meta-label">准确率</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">30天</div>
+                        <div class="meta-label">更新周期</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">游客数据</span>
+                    <span class="data-tag">行为分析</span>
+                    <span class="data-tag">实时更新</span>
+                </div>
+            </div>
+
+            <!-- 数据产品2 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">景区客流监测数据</h3>
+                        <div class="data-provider">杭州文旅集团</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    实时监测全省重点景区客流量、游客密度、停留时长等关键指标，
+                    为景区管理和游客疏导提供数据支撑。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">500+</div>
+                        <div class="meta-label">景区覆盖</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">实时</div>
+                        <div class="meta-label">更新频率</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">99.9%</div>
+                        <div class="meta-label">可用性</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">景区数据</span>
+                    <span class="data-tag">实时监测</span>
+                    <span class="data-tag">客流分析</span>
+                </div>
+            </div>
+
+            <!-- 数据产品3 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">文旅消费趋势数据</h3>
+                        <div class="data-provider">银联商务</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    基于银联交易数据的文旅消费分析，涵盖餐饮、住宿、购物、娱乐等
+                    消费场景，洞察消费趋势和区域经济活力。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">15B</div>
+                        <div class="meta-label">交易记录</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">100+</div>
+                        <div class="meta-label">城市覆盖</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">7天</div>
+                        <div class="meta-label">更新周期</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">消费数据</span>
+                    <span class="data-tag">趋势分析</span>
+                    <span class="data-tag">经济指标</span>
+                </div>
+            </div>
+
+            <!-- 数据产品4 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">旅游交通流量数据</h3>
+                        <div class="data-provider">省交通厅</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    高速公路、铁路、航空等交通方式的客流数据，分析旅游旺季交通压力、
+                    优化交通资源配置和旅游路线规划。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">实时</div>
+                        <div class="meta-label">数据更新</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">全省</div>
+                        <div class="meta-label">覆盖范围</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">多模态</div>
+                        <div class="meta-label">数据类型</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">交通数据</span>
+                    <span class="data-tag">流量监测</span>
+                    <span class="data-tag">实时分析</span>
+                </div>
+            </div>
+
+            <!-- 数据产品5 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">旅游气象服务数据</h3>
+                        <div class="data-provider">省气象局</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    精细化天气预报和气候数据，为旅游景区提供气象预警、适宜度评估
+                    和旅游气象指数等服务。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">24小时</div>
+                        <div class="meta-label">预报精度</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">99%</div>
+                        <div class="meta-label">准确率</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">实时</div>
+                        <div class="meta-label">预警推送</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">天气数据</span>
+                    <span class="data-tag">气象服务</span>
+                    <span class="data-tag">预警系统</span>
+                </div>
+            </div>
+
+            <!-- 数据产品6 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">文化遗产数字档案</h3>
+                        <div class="data-provider">省文物局</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    全省重点文物保护单位、非物质文化遗产的数字档案数据，
+                    包含历史资料、保护现状、研究成果等数字化信息。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">1,200+</div>
+                        <div class="meta-label">文物点</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">50TB</div>
+                        <div class="meta-label">数据容量</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">季度</div>
+                        <div class="meta-label">更新周期</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">文化数据</span>
+                    <span class="data-tag">数字档案</span>
+                    <span class="data-tag">文物保护</span>
+                </div>
+            </div>
+            <!-- 数据产品7 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">酒店入住率分析数据</h3>
+                        <div class="data-provider">省旅游协会</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    全省各地区酒店入住率、平均房价、客源地分布等数据，
+                    为旅游业态分析和酒店经营决策提供数据支持。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">5,000+</div>
+                        <div class="meta-label">酒店覆盖</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">每日</div>
+                        <div class="meta-label">更新频率</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">98%</div>
+                        <div class="meta-label">数据准确率</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">住宿数据</span>
+                    <span class="data-tag">消费数据</span>
+                    <span class="data-tag">趋势分析</span>
+                </div>
+            </div>
+
+            <!-- 数据产品8 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">餐饮消费行为数据</h3>
+                        <div class="data-provider">美团点评</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    基于用户点评和消费行为的餐饮数据分析，包含热门菜系、
+                    价格敏感度、用户评价等多维度信息。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">10M+</div>
+                        <div class="meta-label">用户评价</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">50K+</div>
+                        <div class="meta-label">餐厅覆盖</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">周更</div>
+                        <div class="meta-label">更新频率</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">消费数据</span>
+                    <span class="data-tag">餐饮分析</span>
+                    <span class="data-tag">用户评价</span>
+                </div>
+            </div>
+
+            <!-- 数据产品9 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">景区热门拍摄点数据</h3>
+                        <div class="data-provider">省摄影协会</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    基于社交媒体图片分析的景区热门拍摄点数据，包含地理位置、
+                    最佳拍摄时间、热度趋势等信息。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">1,000+</div>
+                        <div class="meta-label">景点覆盖</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">5M+</div>
+                        <div class="meta-label">图片分析</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">季度</div>
+                        <div class="meta-label">更新周期</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">景区数据</span>
+                    <span class="data-tag">社交媒体</span>
+                    <span class="data-tag">图像分析</span>
+                </div>
+            </div>
+
+            <!-- 数据产品10 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">景区门票销售数据</h3>
+                        <div class="data-provider">省文旅大数据中心</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    全省各景区门票销售数据，包含销售渠道、价格区间、
+                    购买时间分布、团体与个人比例等信息。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">300+</div>
+                        <div class="meta-label">景区覆盖</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">日更</div>
+                        <div class="meta-label">更新频率</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">100%</div>
+                        <div class="meta-label">数据完整</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">景区数据</span>
+                    <span class="data-tag">销售分析</span>
+                    <span class="data-tag">消费数据</span>
+                </div>
+            </div>
+
+            <!-- 数据产品11 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">旅游热力图数据</h3>
+                        <div class="data-provider">移动通信运营商</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    基于移动通信信令数据生成的旅游区域人流热力图，
+                    反映不同时段、不同区域的游客密度变化。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">实时</div>
+                        <div class="meta-label">更新频率</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">全省</div>
+                        <div class="meta-label">覆盖范围</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">50m</div>
+                        <div class="meta-label">精度</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">游客数据</span>
+                    <span class="data-tag">人流分析</span>
+                    <span class="data-tag">实时监测</span>
+                </div>
+            </div>
+
+            <!-- 数据产品12 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">旅游评价情感分析</h3>
+                        <div class="data-provider">省大数据研究院</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    基于自然语言处理技术对游客评价进行情感分析，
+                    提取关键词、情感倾向和满意度指标。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">20M+</div>
+                        <div class="meta-label">评价数量</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">92%</div>
+                        <div class="meta-label">分析准确率</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">月更</div>
+                        <div class="meta-label">更新频率</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">游客数据</span>
+                    <span class="data-tag">情感分析</span>
+                    <span class="data-tag">NLP技术</span>
+                </div>
+            </div>
+
+            <!-- 数据产品13 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-theater-masks"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">演艺活动数据分析</h3>
+                        <div class="data-provider">省文化演艺集团</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    全省各类文化演艺活动的票房、观众画像、满意度评价等数据，
+                    为文化演出市场提供决策支持。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">5,000+</div>
+                        <div class="meta-label">演出场次</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">100+</div>
+                        <div class="meta-label">演出场所</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">周更</div>
+                        <div class="meta-label">更新频率</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">文化数据</span>
+                    <span class="data-tag">演艺市场</span>
+                    <span class="data-tag">票房分析</span>
+                </div>
+            </div>
+
+            <!-- 数据产品14 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">旅游路线推荐数据</h3>
+                        <div class="data-provider">在线旅游平台</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    基于用户行为和偏好分析的旅游路线推荐数据，包含热门路线、
+                    停留时长、交通方式选择等信息。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">10K+</div>
+                        <div class="meta-label">路线数量</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">AI</div>
+                        <div class="meta-label">推荐算法</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">实时</div>
+                        <div class="meta-label">更新频率</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">游客数据</span>
+                    <span class="data-tag">路线规划</span>
+                    <span class="data-tag">智能推荐</span>
+                </div>
+            </div>
+
+            <!-- 数据产品15 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">景区WiFi行为数据</h3>
+                        <div class="data-provider">省通信管理局</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    基于景区WiFi接入的用户行为数据，分析游客停留时长、
+                    移动轨迹、兴趣偏好等信息。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">200+</div>
+                        <div class="meta-label">景区覆盖</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">匿名化</div>
+                        <div class="meta-label">数据处理</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">日更</div>
+                        <div class="meta-label">更新频率</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">游客数据</span>
+                    <span class="data-tag">行为分析</span>
+                    <span class="data-tag">景区数据</span>
+                </div>
+            </div>
+
+            <!-- 数据产品16 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">方言文化数据库</h3>
+                        <div class="data-provider">省语言文字工作委员会</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    全省各地方言的音频、文字记录和释义数据库，
+                    为方言保护和文化传承提供数字化支持。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">50+</div>
+                        <div class="meta-label">方言种类</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">10K+</div>
+                        <div class="meta-label">词汇量</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">季度</div>
+                        <div class="meta-label">更新周期</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">文化数据</span>
+                    <span class="data-tag">语言资源</span>
+                    <span class="data-tag">非遗保护</span>
+                </div>
+            </div>
+
+            <!-- 数据产品17 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">生态旅游资源数据</h3>
+                        <div class="data-provider">省林业局</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    全省森林公园、湿地公园、地质公园等生态旅游资源数据，
+                    包含地理位置、生物多样性、环境质量等信息。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">300+</div>
+                        <div class="meta-label">资源点位</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">GIS</div>
+                        <div class="meta-label">数据格式</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">年更</div>
+                        <div class="meta-label">更新周期</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">生态数据</span>
+                    <span class="data-tag">景区数据</span>
+                    <span class="data-tag">地理信息</span>
+                </div>
+            </div>
+
+            <!-- 数据产品18 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">旅游商品销售数据</h3>
+                        <div class="data-provider">省商务厅</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    全省旅游商品销售数据，包含商品类别、价格区间、
+                    销售渠道、消费者画像等多维度信息。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">5K+</div>
+                        <div class="meta-label">商品种类</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">1K+</div>
+                        <div class="meta-label">销售点位</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">月更</div>
+                        <div class="meta-label">更新频率</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">消费数据</span>
+                    <span class="data-tag">商品分析</span>
+                    <span class="data-tag">销售趋势</span>
+                </div>
+            </div>
+
+            <!-- 数据产品19 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">节庆活动影响力数据</h3>
+                        <div class="data-provider">省文化和旅游厅</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    全省各类文化旅游节庆活动的影响力评估数据，包含游客量、
+                    媒体曝光、经济带动等多维度指标。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">200+</div>
+                        <div class="meta-label">活动数量</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">多维</div>
+                        <div class="meta-label">评估体系</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">季度</div>
+                        <div class="meta-label">更新周期</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">文化数据</span>
+                    <span class="data-tag">活动评估</span>
+                    <span class="data-tag">影响力分析</span>
+                </div>
+            </div>
+
+            <!-- 数据产品20 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-vr-cardboard"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">文化场馆VR数据</h3>
+                        <div class="data-provider">省博物馆协会</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    全省重点博物馆、美术馆等文化场馆的VR数字化资源，
+                    支持线上虚拟参观和文物3D展示。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">50+</div>
+                        <div class="meta-label">场馆数量</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">8K</div>
+                        <div class="meta-label">图像质量</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">季度</div>
+                        <div class="meta-label">更新周期</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">文化数据</span>
+                    <span class="data-tag">VR资源</span>
+                    <span class="data-tag">数字展示</span>
+                </div>
+            </div>
+
+            <!-- 数据产品21 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">自驾游路线数据</h3>
+                        <div class="data-provider">省交通运输厅</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    全省热门自驾游路线数据，包含道路状况、服务设施、
+                    景点分布、季节适宜性等信息。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">100+</div>
+                        <div class="meta-label">精品路线</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">实时</div>
+                        <div class="meta-label">路况更新</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">GIS</div>
+                        <div class="meta-label">数据格式</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">交通数据</span>
+                    <span class="data-tag">自驾游</span>
+                    <span class="data-tag">路线规划</span>
+                </div>
+            </div>
+
+            <!-- 数据产品22 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">海滨旅游资源数据</h3>
+                        <div class="data-provider">省海洋与渔业局</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    沿海地区旅游资源数据，包含海滩质量、水质监测、
+                    潮汐预报、海上活动适宜性等信息。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">50+</div>
+                        <div class="meta-label">海滩数量</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">日更</div>
+                        <div class="meta-label">监测频率</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">多源</div>
+                        <div class="meta-label">数据来源</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">景区数据</span>
+                    <span class="data-tag">海洋资源</span>
+                    <span class="data-tag">环境监测</span>
+                </div>
+            </div>
+
+            <!-- 数据产品23 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-campground"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">露营地数据资源</h3>
+                        <div class="data-provider">省户外运动协会</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    全省露营地资源数据，包含地理位置、设施条件、
+                    环境特点、适宜季节等信息。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">300+</div>
+                        <div class="meta-label">露营地点</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">季度</div>
+                        <div class="meta-label">更新周期</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">五星</div>
+                        <div class="meta-label">评级体系</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">户外活动</span>
+                    <span class="data-tag">景区数据</span>
+                    <span class="data-tag">地理信息</span>
+                </div>
+            </div>
+
+            <!-- 数据产品24 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">入境游客来源数据</h3>
+                        <div class="data-provider">省出入境管理局</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    入境游客的国别、年龄、性别、停留时长等统计数据，
+                    为国际旅游市场营销提供决策支持。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">100+</div>
+                        <div class="meta-label">国家地区</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">月更</div>
+                        <div class="meta-label">更新频率</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">匿名化</div>
+                        <div class="meta-label">数据处理</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">游客数据</span>
+                    <span class="data-tag">国际旅游</span>
+                    <span class="data-tag">市场分析</span>
+                </div>
+            </div>
+
+            <!-- 数据产品25 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">民间音乐数据库</h3>
+                        <div class="data-provider">省音乐家协会</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    全省各地民间音乐的音频、乐谱、演奏技法等数字化资源，
+                    为非物质文化遗产保护提供数据支持。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">5,000+</div>
+                        <div class="meta-label">曲目数量</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">无损</div>
+                        <div class="meta-label">音频质量</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">季度</div>
+                        <div class="meta-label">更新周期</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">文化数据</span>
+                    <span class="data-tag">音乐资源</span>
+                    <span class="data-tag">非遗保护</span>
+                </div>
+            </div>
+
+            <!-- 数据产品26 -->
+            <div class="data-card">
+                <div class="data-header">
+                    <div class="data-icon">
+                        <i class="fas fa-bicycle"></i>
+                    </div>
+                    <div>
+                        <h3 class="data-title">骑行路线数据</h3>
+                        <div class="data-provider">省体育局</div>
+                    </div>
+                </div>
+                
+                <p class="data-description">
+                    全省精品骑行路线数据，包含路线坡度、路面状况、
+                    沿途服务设施、景观特点等信息。
+                </p>
+                
+                <div class="data-meta">
+                    <div class="meta-item">
+                        <div class="meta-value">50+</div>
+                        <div class="meta-label">精品路线</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">GPS</div>
+                        <div class="meta-label">轨迹格式</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-value">季度</div>
+                        <div class="meta-label">更新周期</div>
+                    </div>
+                </div>
+                
+                <div class="data-tags">
+                    <span class="data-tag">户外活动</span>
+                    <span class="data-tag">交通数据</span>
+                    <span class="data-tag">路线规划</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分页导航 -->
+        <div class="pagination-container" style="display: flex; justify-content: center; margin-top: 32px;">
+            <div class="pagination" style="display: flex; align-items: center; gap: 12px;">
+                <button class="page-btn prev-btn" style="border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 4px; background: white; cursor: pointer; display: flex; align-items: center; gap: 4px;" disabled>
+                    <i class="fas fa-chevron-left"></i> 上一页
+                </button>
+                <div class="page-numbers" style="display: flex; align-items: center; gap: 8px;">
+                    <!-- 页码按钮将通过JavaScript动态生成 -->
+                </div>
+                <button class="page-btn next-btn" style="border: 1px solid #e2e8f0; padding: 8px 16px; border-radius: 4px; background: white; cursor: pointer; display: flex; align-items: center; gap: 4px;">
+                    下一页 <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 产品数量统计 -->
+        <div class="product-stats" style="text-align: center; margin-top: 16px; color: var(--color-gray-400);">
+            显示 <span class="showing-count">1-15</span> / <span class="total-count">26</span> 个数据产品
+        </div>
+
+        <!-- 空状态 -->
+        <div class="empty-state" style="display: none;">
+            <div class="empty-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <h3>未找到匹配的数据产品</h3>
+            <p>请尝试调整搜索条件或筛选条件</p>
+        </div>
+    </section>
+
+    <script>
+        // 搜索和分页功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('.search-input');
+            const searchBtn = document.querySelector('.search-btn');
+            const filterTags = document.querySelectorAll('.filter-tag');
+            const dataCards = document.querySelectorAll('.data-card');
+            const emptyState = document.querySelector('.empty-state');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const pageNumsContainer = document.querySelector('.page-numbers');
+            const showingCountEl = document.querySelector('.showing-count');
+            const totalCountEl = document.querySelector('.total-count');
+            
+            // 分页配置
+            const itemsPerPage = 15;
+            let currentPage = 1;
+            let filteredCards = [...dataCards]; // 当前筛选后的卡片
+            
+            // 初始化
+            initPagination();
+            
+            // 初始化分页
+            function initPagination() {
+                // 设置总数
+                totalCountEl.textContent = dataCards.length;
+                
+                // 更新分页按钮
+                updatePaginationButtons();
+                
+                // 显示第一页
+                showPage(1);
+            }
+            
+            // 更新分页按钮
+            function updatePaginationButtons() {
+                // 清空页码
+                pageNumsContainer.innerHTML = '';
+                
+                // 计算总页数
+                const totalPages = Math.ceil(filteredCards.length / itemsPerPage);
+                
+                // 添加页码按钮
+                    for (let i = 1; i <= totalPages; i++) {
+                        const pageBtn = document.createElement('button');
+                        pageBtn.classList.add('page-num');
+                        pageBtn.style.width = '36px';
+                        pageBtn.style.height = '36px';
+                        pageBtn.style.borderRadius = '4px';
+                        pageBtn.style.display = 'flex';
+                        pageBtn.style.alignItems = 'center';
+                        pageBtn.style.justifyContent = 'center';
+                        pageBtn.style.cursor = 'pointer';
+                        pageBtn.style.border = '1px solid #e2e8f0';
+                        
+                        if (i === currentPage) {
+                            pageBtn.classList.add('active');
+                            pageBtn.style.backgroundColor = 'var(--color-primary)';
+                            pageBtn.style.color = 'white';
+                            pageBtn.style.fontWeight = 'bold';
+                        } else {
+                            pageBtn.style.backgroundColor = 'white';
+                        }
+                        
+                        pageBtn.textContent = i;
+                        pageBtn.addEventListener('click', () => showPage(i));
+                        pageNumsContainer.appendChild(pageBtn);
+                    }
+                
+                // 更新前后按钮状态
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+            }
+            
+            // 显示指定页
+            function showPage(pageNum) {
+                currentPage = pageNum;
+                
+                // 计算当前页的起始和结束索引
+                const startIndex = (pageNum - 1) * itemsPerPage;
+                const endIndex = Math.min(startIndex + itemsPerPage, filteredCards.length);
+                
+                // 隐藏所有卡片
+                dataCards.forEach(card => {
+                    card.style.display = 'none';
+                });
+                
+                // 显示当前页的卡片
+                for (let i = startIndex; i < endIndex; i++) {
+                    filteredCards[i].style.display = 'block';
+                    
+                    // 添加动画效果
+                    filteredCards[i].style.opacity = '0';
+                    filteredCards[i].style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        filteredCards[i].style.opacity = '1';
+                        filteredCards[i].style.transform = 'translateY(0)';
+                    }, (i - startIndex) * 50);
+                }
+                
+                // 更新显示计数
+                if (filteredCards.length > 0) {
+                    showingCountEl.textContent = `${startIndex + 1}-${endIndex}`;
+                } else {
+                    showingCountEl.textContent = '0';
+                }
+                
+                // 更新分页按钮状态
+                const pageButtons = pageNumsContainer.querySelectorAll('.page-num');
+                pageButtons.forEach((btn, index) => {
+                    if (index + 1 === currentPage) {
+                        btn.classList.add('active');
+                        btn.style.backgroundColor = 'var(--color-primary)';
+                        btn.style.color = 'white';
+                        btn.style.fontWeight = 'bold';
+                    } else {
+                        btn.classList.remove('active');
+                        btn.style.backgroundColor = 'white';
+                        btn.style.color = 'var(--color-text)';
+                        btn.style.fontWeight = 'normal';
+                    }
+                });
+                
+                // 更新前后按钮状态
+                const totalPages = Math.ceil(filteredCards.length / itemsPerPage);
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+                
+                // 显示/隐藏空状态
+                emptyState.style.display = filteredCards.length === 0 ? 'block' : 'none';
+            }
+            
+            // 前一页按钮事件
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    showPage(currentPage - 1);
+                }
+            });
+            
+            // 后一页按钮事件
+            nextBtn.addEventListener('click', () => {
+                const totalPages = Math.ceil(filteredCards.length / itemsPerPage);
+                if (currentPage < totalPages) {
+                    showPage(currentPage + 1);
+                }
+            });
+            
+            // 搜索功能
+            searchBtn.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch();
+            });
+
+            function performSearch() {
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                // 筛选卡片
+                filteredCards = [...dataCards].filter(card => {
+                    const title = card.querySelector('.data-title').textContent.toLowerCase();
+                    const description = card.querySelector('.data-description').textContent.toLowerCase();
+                    const tags = Array.from(card.querySelectorAll('.data-tag')).map(tag => tag.textContent.toLowerCase());
+
+                    return title.includes(searchTerm) || 
+                           description.includes(searchTerm) || 
+                           tags.some(tag => tag.includes(searchTerm));
+                });
+                
+                // 更新分页并显示第一页
+                currentPage = 1;
+                updatePaginationButtons();
+                showPage(1);
+                
+                // 更新总数
+                totalCountEl.textContent = filteredCards.length;
+            }
+
+            // 筛选功能
+            filterTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    // 移除所有激活状态
+                    filterTags.forEach(t => t.classList.remove('active'));
+                    // 激活当前标签
+                    this.classList.add('active');
+
+                    const filterValue = this.textContent;
+                    
+                    // 筛选卡片
+                    if (filterValue === '全部') {
+                        filteredCards = [...dataCards];
+                    } else {
+                        filteredCards = [...dataCards].filter(card => {
+                            const cardTags = Array.from(card.querySelectorAll('.data-tag'))
+                                .map(t => t.textContent);
+                            return cardTags.includes(filterValue);
+                        });
+                    }
+                    
+                    // 更新分页并显示第一页
+                    currentPage = 1;
+                    updatePaginationButtons();
+                    showPage(1);
+                    
+                    // 更新总数
+                    totalCountEl.textContent = filteredCards.length;
+                });
+            });
+        });
+    </script>
+</body>
+</html>

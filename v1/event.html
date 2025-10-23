@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布会专题 - 文旅可信数据空间</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://use.fontawesome.com/releases/v6.5.1/js/all.js"></script>
+    <style>
+        :root {
+            --color-primary: #0052D4;
+            --color-secondary: #00A1D6;
+            --color-accent: #3A3A3A;
+            --color-gray-100: #F5F5F5;
+            --color-gray-200: #E5E5E5;
+            --color-gray-300: #D9D9D9;
+            --color-gray-400: #666666;
+            --color-gray-500: #3A3A3A;
+            --font-family-cn: 'Source Han Sans', sans-serif;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --radius-md: 8px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --transition-normal: 0.3s;
+        }
+
+        body {
+            font-family: var(--font-family-cn);
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: var(--color-gray-500);
+        }
+
+        .browser-bar {
+            height: 40px;
+            background-color: #ccc;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+            border-bottom: 1px solid var(--color-gray-300);
+        }
+
+        .browser-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .browser-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .browser-control.close { background-color: #FF5F57; }
+        .browser-control.minimize { background-color: #FFBD2E; }
+        .browser-control.maximize { background-color: #28CA42; }
+
+        .browser-url {
+            flex: 1;
+            text-align: center;
+            color: var(--color-gray-400);
+            font-size: 14px;
+        }
+
+        .nav-container {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid var(--color-gray-200);
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .nav-desktop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-mobile {
+            display: none;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-2xl);
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: var(--color-gray-400);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color var(--transition-normal);
+        }
+
+        .nav-link.active {
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        .language-switch {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--color-gray-400);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .lang-btn.active {
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            color: white;
+            text-align: center;
+            padding: var(--spacing-2xl) 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+            position: relative;
+            z-index: 2;
+        }
+
+        .event-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .event-subtitle {
+            font-size: 20px;
+            margin-bottom: var(--spacing-lg);
+            opacity: 0.9;
+        }
+
+        .countdown {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: var(--spacing-xl);
+            background: rgba(255,255,255,0.2);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-md);
+            display: inline-block;
+        }
+
+        .content-section {
+            max-width: 1200px;
+            margin: var(--spacing-2xl) auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+            color: var(--color-gray-500);
+        }
+
+        .agenda-grid {
+            display: grid;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .agenda-item {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .agenda-time {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .agenda-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-gray-500);
+        }
+
+        .agenda-speaker {
+            color: var(--color-gray-400);
+            font-size: 14px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .agenda-description {
+            color: var(--color-gray-400);
+            line-height: 1.6;
+        }
+
+        .speakers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .speaker-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+        }
+
+        .speaker-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .speaker-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--color-gray-200);
+            margin: 0 auto var(--spacing-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--color-gray-400);
+        }
+
+        .speaker-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-gray-500);
+        }
+
+        .speaker-title {
+            color: var(--color-gray-400);
+            font-size: 14px;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .speaker-org {
+            color: var(--color-primary);
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .video-section {
+            background: var(--color-gray-100);
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-md);
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 400px;
+            background: var(--color-gray-200);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-gray-400);
+            font-size: 18px;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .download-link {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .download-link:hover {
+            text-decoration: underline;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .event-cta-button {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-2xl);
+            border-radius: var(--radius-md);
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .event-cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        @media (max-width: 768px) {
+            .nav-desktop {
+                display: none;
+            }
+            
+            .nav-mobile {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 56px;
+                padding: 0 var(--spacing-md);
+            }
+            
+            .nav-content {
+                padding: 0 var(--spacing-md);
+            }
+            
+            .event-title {
+                font-size: 32px;
+            }
+            
+            .event-subtitle {
+                font-size: 16px;
+            }
+            
+            .countdown {
+                font-size: 24px;
+            }
+            
+            .content-section {
+                padding: 0 var(--spacing-md);
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .speakers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .video-placeholder {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="browser-bar">
+        <div class="browser-controls">
+            <div class="browser-control close"></div>
+            <div class="browser-control minimize"></div>
+            <div class="browser-control maximize"></div>
+        </div>
+        <div class="browser-url">https://space.zjcaee.com/event</div>
+    </div>
+
+    <div class="nav-container">
+        <div class="nav-content">
+            <nav class="nav-desktop">
+                <div class="logo">文旅可信数据空间</div>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">成效中心</a></li>
+                    <li><a href="solutions.html" class="nav-link">解决方案</a></li>
+                    <li><a href="data-catalog.html" class="nav-link">数据目录</a></li>
+                    <li><a href="alliance.html" class="nav-link">联盟生态</a></li>
+                    <li><a href="event.html" class="nav-link active">发布会专题</a></li>
+                </ul>
+                <div class="language-switch">
+                    <button class="lang-btn active">中文</button>
+                    <button class="lang-btn">EN</button>
+                </div>
+            </nav>
+            
+            <nav class="nav-mobile">
+                <div class="logo">文旅可信数据空间</div>
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="event-title">文旅可信数据空间发布会</h1>
+            <p class="event-subtitle">开启文旅数据要素流通新篇章，共建可信数据生态</p>
+            <div class="countdown" id="countdown">活动已结束</div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <h2 class="section-title">活动议程</h2>
+        <div class="agenda-grid">
+            <div class="agenda-item">
+                <div class="agenda-time">09:00 - 09:30</div>
+                <h3 class="agenda-title">开幕式及领导致辞</h3>
+                <div class="agenda-speaker">浙江省文旅局领导、联盟主席</div>
+                <p class="agenda-description">发布会开幕式，重要领导致辞，介绍平台建设背景和意义。</p>
+            </div>
+            
+            <div class="agenda-item">
+                <div class="agenda-time">09:30 - 10:15</div>
+                <h3 class="agenda-title">平台功能与技术架构介绍</h3>
+                <div class="agenda-speaker">技术总监 张工</div>
+                <p class="agenda-description">详细介绍文旅可信数据空间平台的核心功能、技术架构和安全保障机制。</p>
+            </div>
+            
+            <div class="agenda-item">
+                <div class="agenda-time">10:15 - 11:00</div>
+                <h3 class="agenda-title">首批数据产品发布</h3>
+                <div class="agenda-speaker">产品经理 李经理</div>
+                <p class="agenda-description">发布首批30个数据产品，展示数据流通应用场景和商业价值。</p>
+            </div>
+            
+            <div class="agenda-item">
+                <div class="agenda-time">11:00 - 11:45</div>
+                <h3 class="agenda-title">合作伙伴签约仪式</h3>
+                <div class="agenda-speaker">联盟秘书长 王秘书长</div>
+                <p class="agenda-description">与重要合作伙伴签署战略合作协议，扩大联盟生态圈。</p>
+            </div>
+            
+            <div class="agenda-item">
+                <div class="agenda-time">11:45 - 12:30</div>
+                <h3 class="agenda-title">圆桌论坛：数据要素流通的未来</h3>
+                <div class="agenda-speaker">行业专家、企业代表</div>
+                <p class="agenda-description">探讨文旅数据要素流通的发展趋势、挑战和机遇。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <h2 class="section-title">演讲嘉宾</h2>
+        <div class="speakers-grid">
+            <div class="speaker-card">
+                <div class="speaker-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="speaker-name">张局长</h3>
+                <div class="speaker-title">浙江省文化和旅游厅</div>
+                <div class="speaker-org">副局长</div>
+            </div>
+            
+            <div class="speaker-card">
+                <div class="speaker-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="speaker-name">李总</h3>
+                <div class="speaker-title">杭州文旅集团</div>
+                <div class="speaker-org">总经理</div>
+            </div>
+            
+            <div class="speaker-card">
+                <div class="speaker-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="speaker-name">王博士</h3>
+                <div class="speaker-title">阿里巴巴集团</div>
+                <div class="speaker-org">技术专家</div>
+            </div>
+            
+            <div class="speaker-card">
+                <div class="speaker-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <h3 class="speaker-name">陈教授</h3>
+                <div class="speaker-title">浙江大学</div>
+                <div class="speaker-org">数字经济研究中心主任</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="video-section">
+            <h2 class="section-title">活动回放</h2>
+            <div class="video-placeholder">
+                <i class="fas fa-play-circle" style="font-size: 48px; margin-right: 16px;"></i>
+                <span>发布会视频回放</span>
+            </div>
+            <a href="#" class="download-link">
+                <i class="fas fa-download"></i>
+                下载视频文件
+            </a>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <button class="event-cta-button" onclick="location.href='form-basic.html'">
+            提交合作意向
+        </button>
+    </section>
+
+    <script>
+        // 倒计时功能（示例代码，实际活动已结束）
+        function updateCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            countdownElement.textContent = '活动已结束，感谢参与！';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCountdown();
+            
+            // 视频播放失败处理
+            const videoPlaceholder = document.querySelector('.video-placeholder');
+            videoPlaceholder.addEventListener('click', function() {
+                alert('视频加载失败，请尝试下载视频文件或刷新页面。');
+            });
+        });
+    </script>
+</body>
+</html>

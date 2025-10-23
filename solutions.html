@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解决方案中心 - 文旅可信数据空间</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://use.fontawesome.com/releases/v6.5.1/js/all.js"></script>
+    <style>
+        :root {
+            /* 颜色设计令牌 */
+            --color-primary: #008bf5;
+            --color-secondary: #00A1D6;
+            --color-accent: #3A3A3A;
+            --color-gray-100: #F5F5F5;
+            --color-gray-200: #E5E5E5;
+            --color-gray-300: #D9D9D9;
+            --color-gray-400: #666666;
+            --color-gray-500: #3A3A3A;
+            --color-success: #52C41A;
+            
+            /* 字体设计令牌 */
+            --font-family-cn: 'Source Han Sans', 'Microsoft YaHei', sans-serif;
+            --font-size-title: 24px;
+            --font-size-body: 16px;
+            --font-size-secondary: 14px;
+            
+            /* 间距设计令牌 */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            
+            /* 圆角设计令牌 */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            
+            /* 阴影设计令牌 */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            
+            /* 动画设计令牌 */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+        }
+
+        body {
+            font-family: var(--font-family-cn);
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: var(--color-gray-500);
+        }
+
+        .browser-bar {
+            height: 40px;
+            background-color: #ccc;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+            border-bottom: 1px solid var(--color-gray-300);
+        }
+
+        .browser-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .browser-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .browser-control.close { background-color: #FF5F57; }
+        .browser-control.minimize { background-color: #FFBD2E; }
+        .browser-control.maximize { background-color: #28CA42; }
+
+        .browser-url {
+            flex: 1;
+            text-align: center;
+            color: var(--color-gray-400);
+            font-size: 14px;
+        }
+
+        .nav-container {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid var(--color-gray-200);
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .nav-desktop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-mobile {
+            display: none;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-2xl);
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: var(--color-gray-400);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color var(--transition-normal);
+        }
+
+        .nav-link.active {
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        .page-header {
+            background: var(--color-gray-100);
+            padding: var(--spacing-2xl) 0;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--color-gray-400);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .solutions-tabs {
+            max-width: 1200px;
+            margin: var(--spacing-2xl) auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .tabs-header {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-2xl);
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 16px;
+            color: var(--color-gray-400);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all var(--transition-normal);
+        }
+
+        .tab-btn.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .tab-btn:hover {
+            color: var(--color-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .solution-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--color-primary);
+            transition: transform var(--transition-normal);
+        }
+
+        .solution-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .solution-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--color-gray-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--spacing-lg);
+            font-size: 24px;
+            color: var(--color-primary);
+        }
+
+        .solution-title, .flow-step-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .solution-description {
+            color: var(--color-gray-400);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .solution-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .solution-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-gray-400);
+        }
+
+        .solution-feature i {
+            color: var(--color-success);
+            margin-right: var(--spacing-sm);
+        }
+
+        .solution-cta {
+            text-align: center;
+        }
+
+        .solution-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .solution-btn:hover {
+            background: var(--color-secondary);
+            transform: scale(1.05);
+        }
+
+        /* 旗舰计划流程图样式 */
+        .flagship-flow {
+            background: var(--color-gray-100);
+            padding: var(--spacing-2xl) 0;
+            margin: var(--spacing-2xl) 0;
+        }
+
+        .flow-container, .case-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .flow-title, .case-title {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .flow-subtitle {
+            font-size: 18px;
+            color: var(--color-gray-400);
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .flow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .flow-step {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            position: relative;
+        }
+
+        .flow-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--color-gray-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-lg);
+            font-size: 32px;
+            color: var(--color-primary);
+        }
+
+        .flow-step-desc {
+            color: var(--color-gray-400);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .flow-step-features {
+            text-align: left;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .flow-step-feature {
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-sm);
+            padding-left: var(--spacing-md);
+            position: relative;
+        }
+
+        .flow-step-feature::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+        }
+
+        /* --- 新增内容: 数据资源与场景 --- */
+        .data-resources-section {
+            background: var(--color-gray-100);
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .data-resources-title {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .data-resources-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            align-items: flex-start;
+        }
+
+        .data-resources-item-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .data-resources-item-desc {
+            color: var(--color-gray-400);
+            line-height: 1.6;
+            font-size: var(--font-size-body);
+        }
+
+        .data-resources-left .data-resources-item-title {
+            margin-top: var(--spacing-lg);
+        }
+        
+        .large-image-placeholder {
+            width: 100%;
+            aspect-ratio: 5 / 3;
+            background-color: var(--color-gray-300);
+            border-radius: var(--radius-md);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            overflow: hidden;
+        }
+
+        .large-image-overlay {
+            width: 100%;
+            padding: var(--spacing-md);
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .overlay-note {
+            font-size: 12px;
+            flex: 1;
+        }
+        
+        .overlay-qr-area {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .overlay-qr-text {
+            font-size: 12px;
+            text-align: right;
+        }
+
+        .qr-placeholder {
+            width: 70px;
+            height: 70px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-size: 10px;
+        }
+
+        .data-resources-right {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xl);
+        }
+
+        .data-item {
+            display: flex;
+            gap: var(--spacing-lg);
+            align-items: center;
+        }
+
+        .small-image-placeholder {
+            width: 180px;
+            height: 120px;
+            background-color: var(--color-gray-300);
+            border-radius: var(--radius-sm);
+            flex-shrink: 0;
+        }
+        /* --- 新增内容结束 --- */
+
+
+        .case-studies {
+            background: var(--color-gray-100);
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .case-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .case-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .case-logo {
+            width: 60px;
+            height: 60px;
+            background: var(--color-gray-200);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-lg);
+            font-size: 24px;
+            color: var(--color-primary);
+        }
+
+        .case-company {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .case-industry {
+            color: var(--color-gray-400);
+            font-size: 14px;
+        }
+
+        .case-challenge {
+            color: var(--color-gray-400);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .case-result {
+            background: var(--color-gray-100);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--color-success);
+        }
+
+        .case-result-title {
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .case-result-list {
+            color: var(--color-gray-400);
+            line-height: 1.5;
+        }
+
+        .anchor-point {
+            display: block;
+            position: relative;
+            top: -120px;
+            visibility: hidden;
+            height: 0;
+        }
+
+        .cta-section {
+            padding: var(--spacing-2xl) 0;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .cta-description {
+            font-size: 18px;
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-2xl);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: var(--spacing-lg);
+            justify-content: center;
+        }
+
+        .cta-button {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-2xl);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .cta-button.secondary {
+            background: white;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 992px) {
+            .data-resources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        @media (max-width: 768px) {
+            .nav-desktop {
+                display: none;
+            }
+            
+            .nav-mobile {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 56px;
+                padding: 0 var(--spacing-md);
+            }
+            
+            .nav-content {
+                padding: 0 var(--spacing-md);
+            }
+            
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .tabs-header {
+                flex-wrap: wrap;
+            }
+            
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .case-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 浏览器地址栏 -->
+    <div class="browser-bar">
+        <div class="browser-controls">
+            <div class="browser-control close"></div>
+            <div class="browser-control minimize"></div>
+            <div class="browser-control maximize"></div>
+        </div>
+        <div class="browser-url">https://space.zjcaee.com/solutions</div>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="nav-container">
+        <div class="nav-content">
+            <nav class="nav-desktop">
+                <div class="logo">文旅可信数据空间</div>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">首页</a></li>
+                    <li><a href="technology.html" class="nav-link">技术能力</a></li>
+                    <li><a href="solutions.html" class="nav-link active">解决方案</a></li>
+                    <li><a href="data-catalog.html" class="nav-link">数据目录</a></li>
+                    <li><a href="form-basic.html" class="nav-link">申请试用</a></li>
+                </ul>
+            </nav>
+            
+            <nav class="nav-mobile">
+                <div class="logo">文旅可信数据空间</div>
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 页面头部 -->
+    <section class="page-header">
+        <h1 class="page-title">解决方案中心</h1>
+        <p class="page-subtitle">我们将原始数据转化为商业洞察与社会价值，为您的每一步决策提供可信依据。</p>
+    </section>
+
+    <!-- 解决方案标签页 -->
+    <section class="solutions-tabs">
+        <div class="tabs-header">
+            <!-- 企业与社会数据解决方案锚点 -->
+            <a id="enterprise-solutions" class="anchor-point"></a>
+            <button class="tab-btn active" data-tab="enterprise">企业与社会数据解决方案</button>
+            <button class="tab-btn" data-tab="flagship">公共数据授权运营解决方案 (旗舰计划)</button>
+        </div>
+
+        
+        <!-- 企业与社会数据解决方案 -->
+        <div class="tab-content active" id="enterprise">
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="solution-title">智慧景区 · 精准营销与运营优化</h3>
+                    <p class="solution-description">
+                        融合运营商信令、OTA平台等多源数据，构建动态客源地画像与游客行为模型。
+                        通过平台提供的API接口和可视化报告，赋能景区进行精准广告投放和智慧化现场管理。
+                    </p>
+                    <ul class="solution-features">
+                        <li class="solution-feature">
+                            <i class="fas fa-check"></i>游客来源地分析报告
+                        </li>
+                        <li class="solution-feature">
+                            <i class="fas fa-check"></i>景区实时客流热力图
+                        </li>
+                        <li class="solution-feature">
+                            <i class="fas fa-check"></i>游客消费偏好标签集
+                        </li>
+                    </ul>
+                    <div class="solution-cta">
+                        <button class="solution-btn">探索商业应用</button>
+                    </div>
+                </div>
+
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <h3 class="solution-title">数字文博 · AIGC内容创制与IP活化</h3>
+                    <p class="solution-description">
+                        提供经过精细标注和合规审查的多模态数据集，包含海量历史影像、三维文物模型、典籍文献等。
+                        这些高质量数据可直接用于训练或优化文旅垂直领域的AIGC大模型。
+                    </p>
+                    <ul class="solution-features">
+                        <li class="solution-feature">
+                            <i class="fas fa-check"></i>中国古建筑风格图像数据集
+                        </li>
+                        <li class="solution-feature">
+                            <i class="fas fa-check"></i>青铜器纹样矢量化数据集
+                        </li>
+                        <li class="solution-feature">
+                            <i class="fas fa-check"></i>历代书法碑拓文本数据集
+                        </li>
+                    </ul>
+                    <div class="solution-cta">
+                        <button class="solution-btn">探索商业应用</button>
+                    </div>
+                </div>
+
+                <div class="solution-card">
+                    <div class="solution-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3 class="solution-title">生态共创 · 赋能多元应用场景</h3>
+                    <p class="solution-description">
+                        我们诚邀以下领域的伙伴，共同基于公共数据产品进行创新应用开发：
+                    </p>
+                    <ul class="solution-features">
+                        <li class="solution-feature">
+                            <i class="fas fa-check"></i>城市规划与治理
+                        </li>
+                        <li class="solution-feature">
+                            <i class="fas fa-check"></i>学术研究与咨询
+                        </li>
+                        <li class="solution-feature">
+                            <i class="fas fa-check"></i>创新应用开发
+                        </li>
+                    </ul>
+                    <div class="solution-cta">
+                        <button class="solution-btn">了解详情</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 公共数据授权运营解决方案锚点 -->
+        <a id="flagship-plan" class="anchor-point"></a>
+        
+        <!-- 公共数据授权运营解决方案 (旗舰计划) -->
+        <div class="tab-content" id="flagship">
+            <div class="flagship-flow">
+                <div class="flow-container">
+                    <h2 class="flow-title">旗舰计划 · 共创公共数据价值新生态</h2>
+                    <p class="flow-subtitle">
+                        作为文旅领域公共数据授权运营的先行者，我们搭建了一座连接政府数据资源与市场创新活力的桥梁。
+                        我们诚邀您加入这个开创性的生态，共同探索数据要素的"第四形态"。
+                    </p>
+                    
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <div class="flow-icon">
+                                <i class="fas fa-landmark"></i>
+                            </div>
+                            <h3 class="flow-step-title">坚实基础 · 合规的公共数据源</h3>
+                            <p class="flow-step-desc">
+                                平台已与省市数据管理部门达成战略合作，在确保绝对安全与隐私保护的前提下，
+                                授权接入以下核心公共数据资源：
+                            </p>
+                            <div class="flow-step-features">
+                                <div class="flow-step-feature">A级景区名录与客流统计</div>
+                                <div class="flow-step-feature">文保单位与非遗名录</div>
+                                <div class="flow-step-feature">公共文化场馆开放信息</div>
+                                <div class="flow-step-feature">重大节假日交通枢纽数据</div>
+                            </div>
+                            <button class="solution-btn">了解详情</button>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="flow-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h3 class="flow-step-title">价值引擎 · 平台的核心处理能力</h3>
+                            <p class="flow-step-desc">
+                                原始数据通过平台独有的"数据中央厨房"进行加工，实现价值倍增：
+                            </p>
+                            <div class="flow-step-features">
+                                <div class="flow-step-feature">数据治理与标准化</div>
+                                <div class="flow-step-feature">脱敏与隐私保护</div>
+                                <div class="flow-step-feature">建模与指数化</div>
+                                <div class="flow-step-feature">产品化封装</div>
+                            </div>
+                            <button class="solution-btn">了解详情</button>
+                        </div>
+
+                        <div class="flow-step">
+                            <div class="flow-icon">
+                                <i class="fas fa-cube"></i>
+                            </div>
+                            <h3 class="flow-step-title">成果展现 · 可用的数据产品目录</h3>
+                            <p class="flow-step-desc">
+                                我们将公共数据转化为以下即用型数据产品，赋能多领域创新：
+                            </p>
+                            <div class="flow-step-features">
+                                <div class="flow-step-feature">区域文旅活力指数</div>
+                                <div class="flow-step-feature">公共文化服务热力图</div>
+                                <div class="flow-step-feature">节假日出行预测模型</div>
+                                <div class="flow-step-feature">中小企业文旅商机洞察</div>
+                            </div>
+                            <button class="solution-btn">了解详情</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 新增内容: 数据资源与场景 ===== -->
+    <section class="data-resources-section">
+        <div class="case-container">
+            <h2 class="data-resources-title">数据资源与场景</h2>
+            <div class="data-resources-grid">
+                <!-- 左侧 -->
+                <div class="data-resources-left">
+                    <div class="large-image-placeholder">
+                        <div class="large-image-overlay">
+                            <div class="overlay-note">*注：视频流通过文旅可信数据空间传送</div>
+                            <div class="overlay-qr-area">
+                                <div class="overlay-qr-text">
+                                    扫码观看<br>
+                                    景区点位<br>
+                                    监控直播
+                                </div>
+                                <div class="qr-placeholder">
+                                    QR Code
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="data-resources-item-title">实时视频流数据</h3>
+                    <p class="data-resources-item-desc">
+                        提供景区实时视频流数据，打造“慢直播”品牌展示窗口。在保障数据合规流通的前提下，赋能“云旅游”体验与创新数字营销活动，有效吸引潜在游客，提升文旅品牌影响力与商业价值。
+                    </p>
+                </div>
+                <!-- 右侧 -->
+                <div class="data-resources-right">
+                    <div class="data-item">
+                        <div class="small-image-placeholder"></div>
+                        <div class="data-item-text">
+                            <h3 class="data-resources-item-title">历史影像资料库</h3>
+                            <p class="data-resources-item-desc">
+                                汇集古籍文献、历史影像等文化数据，支持数字展览及文创开发场景，助力文化遗产传承与创新。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <div class="small-image-placeholder"></div>
+                        <div class="data-item-text">
+                            <h3 class="data-resources-item-title">文旅开放数据</h3>
+                            <p class="data-resources-item-desc">
+                                全面整合“吃、住、行、游、购、娱”六大要素，构建智慧文旅应用的数据基石，显著提升游客体验和管理决策效率。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="data-item">
+                        <div class="small-image-placeholder"></div>
+                        <div class="data-item-text">
+                            <h3 class="data-resources-item-title">多模态数据集</h3>
+                            <p class="data-resources-item-desc">
+                                整合文物、家居等多模态3D扫描数据，作为训练AIGC及相关视觉模型的核心数据集。广泛应用于虚拟展示、沉浸式旅游和文化教育场景。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ===== 新增内容结束 ===== -->
+
+    <!-- 成功案例 -->
+    <section class="case-studies" style="background: white;">
+        <div class="case-container">
+            <h2 class="case-title">成功案例</h2>
+            <div class="case-grid">
+                <div class="case-card">
+                    <div class="case-header">
+                        <div class="case-logo">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <div>
+                            <div class="case-company">智慧景区项目</div>
+                            <div class="case-industry">旅游景区</div>
+                        </div>
+                    </div>
+                    <p class="case-challenge">
+                        如何在激烈的市场竞争中精准触达高价值潜客？如何实时掌握客流动态，
+                        优化资源配置与游客体验？
+                    </p>
+                    <div class="case-result">
+                        <div class="case-result-title">落地效果</div>
+                        <div class="case-result-list">
+                            • 营销ROI提升30%+<br>
+                            • 运营人力成本降低15%<br>
+                            • 游客满意度显著提高
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-card">
+                    <div class="case-header">
+                        <div class="case-logo">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <div>
+                            <div class="case-company">数字文博项目</div>
+                            <div class="case-industry">文化机构</div>
+                        </div>
+                    </div>
+                    <p class="case-challenge">
+                        如何让沉睡的馆藏文物"活"起来？如何利用AIGC技术，低成本、高效率地
+                        生产引人入胜的数字化内容与文创产品？
+                    </p>
+                    <div class="case-result">
+                        <div class="case-result-title">落地效果</div>
+                        <div class="case-result-list">
+                            • 文创产品开发周期缩短50%<br>
+                            • 数字展览内容生产成本降低80%<br>
+                            • 打造现象级数字文化IP
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA区域 -->
+    <section class="cta-section">
+        <h2 class="cta-title">加入我们，成为公共数据价值的共创者</h2>
+        <p class="cta-description">
+            我们提供：优先的数据权限、专业的技术支持、标杆的品牌曝光。
+            您的成功应用案例将被作为旗舰计划的标杆进行展示和推广。
+        </p>
+        <div class="cta-buttons">
+            <button class="cta-button" onclick="location.href='form-basic.html'">
+                立即申请成为试点伙伴
+            </button>
+            <button class="cta-button secondary" onclick="location.href='contact.html'">
+                了解更多
+            </button>
+        </div>
+    </section>
+
+    <script>
+        // 全局变量存储标签页元素
+        let tabBtns = [];
+        let tabContents = [];
+
+        // 锚点跳转处理
+        function handleAnchorNavigation() {
+            const hash = window.location.hash;
+            
+            // 确保元素已加载
+            if (tabBtns.length === 0) {
+                tabBtns = document.querySelectorAll('.tab-btn');
+                tabContents = document.querySelectorAll('.tab-content');
+            }
+            
+            if (hash === '#enterprise-solutions') {
+                // 切换到企业解决方案标签页
+                const enterpriseBtn = document.querySelector('[data-tab="enterprise"]');
+                const enterpriseContent = document.getElementById('enterprise');
+                
+                if (enterpriseBtn && enterpriseContent) {
+                    // 移除所有激活状态
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // 激活企业解决方案
+                    enterpriseBtn.classList.add('active');
+                    enterpriseContent.classList.add('active');
+                    
+                    // 平滑滚动到锚点位置
+                    setTimeout(() => {
+                        const anchor = document.getElementById('enterprise-solutions');
+                        if (anchor) {
+                            window.scrollTo({
+                                top: anchor.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }, 300);
+                }
+            } else if (hash === '#flagship-plan') {
+                // 切换到旗舰计划标签页
+                const flagshipBtn = document.querySelector('[data-tab="flagship"]');
+                const flagshipContent = document.getElementById('flagship');
+                
+                if (flagshipBtn && flagshipContent) {
+                    // 移除所有激活状态
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // 激活旗舰计划
+                    flagshipBtn.classList.add('active');
+                    flagshipContent.classList.add('active');
+                    
+                    // 平滑滚动到锚点位置
+                    setTimeout(() => {
+                        const anchor = document.getElementById('flagship-plan');
+                        if (anchor) {
+                            window.scrollTo({
+                                top: anchor.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }, 300);
+                }
+            }
+        }
+
+        // 标签页切换功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            // 监听hash变化
+            window.addEventListener('hashchange', handleAnchorNavigation);
+            
+            // 页面加载时检查hash
+            handleAnchorNavigation();
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 移除所有激活状态
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // 添加当前激活状态
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // 卡片动画效果
+            const animatedElements = document.querySelectorAll('.solution-card, .flow-step, .case-card');
+            
+            setTimeout(() => {
+                animatedElements.forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 500);
+            
+            // 初始化样式
+            animatedElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'all 0.5s ease';
+            });
+        });
+    </script>
+</body>
+</html>

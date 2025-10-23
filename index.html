@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文旅可信数据空间门户</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://use.fontawesome.com/releases/v6.5.1/js/all.js"></script>
+    <style>
+        :root {
+            --color-primary: #008bf5;
+            --color-secondary: #00A1D6;
+            --color-gray-100: #F5F5F5;
+            --color-gray-200: #E5E5E5;
+            --color-gray-300: #D9D9D9;
+            --color-gray-400: #666666;
+            --color-gray-500: #3A3A3A;
+            --color-error: #FF4D4F;
+            --color-success: #52C41A;
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --transition-normal: 0.3s;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: white;
+            color: var(--color-gray-500);
+        }
+
+        .browser-bar {
+            height: 40px;
+            background: #ccc;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+            border-bottom: 1px solid var(--color-gray-300);
+        }
+
+        .browser-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .browser-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .browser-control.close { background: #FF5F57; }
+        .browser-control.minimize { background: #FFBD2E; }
+        .browser-control.maximize { background: #28CA42; }
+
+        .browser-url {
+            flex: 1;
+            text-align: center;
+            color: var(--color-gray-400);
+            font-size: 14px;
+        }
+
+        .nav-container {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid var(--color-gray-200);
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .nav-desktop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-2xl);
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: var(--color-gray-400);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color var(--transition-normal);
+        }
+
+        .nav-link.active {
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        .hero-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            align-items: center;
+        }
+
+        .hero-text {
+            padding-right: var(--spacing-2xl);
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-lg);
+            font-weight: bold;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-xl);
+            line-height: 1.6;
+        }
+
+        .hero-slogan {
+            font-size: 20px;
+            color: var(--color-gray-500);
+            font-weight: bold;
+            margin-bottom: var(--spacing-xl);
+            font-style: italic;
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            color: white;
+            padding: var(--spacing-md) var(--spacing-xl);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .word-cloud-carousel {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            border-radius: var(--radius-lg);
+        }
+
+        .word-cloud-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .word-cloud-slide.active {
+            opacity: 1;
+        }
+
+        .word-cloud-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .section {
+            padding: var(--spacing-2xl) 0;
+        }
+
+        /* 统一字体样式规范 */
+        .h1-title, .section-title {
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .h2-subtitle, .section-subtitle {
+            font-size: 20px;
+            text-align: center;
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .p-content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-gray-500);
+        }
+
+        .lifecycle-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .lifecycle-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: var(--spacing-2xl);
+            align-items: start;
+        }
+
+        .lifecycle-column {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xl);
+        }
+
+        .lifecycle-item {
+            padding: var(--spacing-lg);
+            background: var(--color-gray-100);
+            border-radius: var(--radius-lg);
+        }
+
+        .lifecycle-item h3 {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .lifecycle-item .service-intro {
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-sm);
+            font-size: 16px;
+        }
+
+        .lifecycle-item .service-detail {
+            color: var(--color-gray-400);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .lifecycle-image {
+            text-align: center;
+            padding: var(--spacing-lg);
+        }
+
+        .lifecycle-image img {
+            max-width: 300px;
+            height: auto;
+        }
+
+
+
+        /* 统一卡片样式 */
+        .service-card, .drive-card {
+            background: white;
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+        }
+
+        .service-card:hover, .drive-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* 统一图标样式 */
+        .service-icon, .drive-icon {
+            font-size: 48px;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        /* 统一标题样式 */
+        .service-title, .drive-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* 统一描述样式 */
+        .service-description, .drive-description {
+            color: var(--color-gray-400);
+            line-height: 1.6;
+        }
+
+        .alliance-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .alliance-header {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .alliance-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+        }
+
+        .member-category {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .member-category h4 {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .member-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .member-list li {
+            padding: var(--spacing-sm) 0;
+            color: var(--color-gray-500);
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .news-section {
+            background: var(--color-gray-100);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+        }
+
+        .news-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            align-items: start;
+        }
+
+        .news-image {
+            width: 100%;
+            height: 100%;
+            min-height: 300px;
+            background: var(--color-gray-200);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .news-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .news-list li {
+            padding: var(--spacing-md) 0;
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .news-list li:last-child {
+            border-bottom: none;
+        }
+
+        .news-list a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color var(--transition-normal);
+        }
+
+        .news-list a:hover {
+            color: var(--color-secondary);
+        }
+
+        /* 联盟生态三列布局 */
+        .alliance-three-columns {
+            display: grid;
+            grid-template-columns: 4fr 3fr 5fr;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+            align-items: start;
+        }
+
+        .alliance-column {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .consensus-box {
+            background: var(--color-gray-100);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+        }
+
+        .consensus-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-lg);
+            text-align: center;
+        }
+
+        .consensus-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--color-gray-500);
+            text-align: center;
+        }
+
+        .consensus-principle {
+            margin-bottom: var(--spacing-sm);
+            font-weight: bold;
+        }
+
+        .alliance-members {
+            padding: 0;
+        }
+
+        .member-category {
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .member-position {
+            display: block;
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .member-name {
+            font-size: 14px;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-xs);
+            padding-left: var(--spacing-md);
+        }
+
+        .alliance-logos {
+            padding: 0;
+            text-align: center;
+        }
+
+        .logo-wall {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-image {
+            max-width: 90%;
+            height: auto;
+            border-radius: var(--radius-md);
+        }
+
+        /* 技术雷达图样式 */
+        .tech-diagram-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 36px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 60px;
+        }
+
+        .tech-diagram-container {
+            position: relative;
+            width: 1200px;
+            height: 500px;
+            margin: 0 auto;
+        }
+
+        .center-shield {
+            width: 200px;
+            height: 100px;
+            background: var(--color-primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(0, 139, 245, 0.5);
+            z-index: 10;
+        }
+
+        .shield-content {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .branch {
+            width: 400px;
+            padding: 24px;
+            background: white;
+            border: 1px solid var(--color-gray-200);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: absolute;
+            z-index: 5;
+            transition: all 0.3s ease;
+        }
+
+        .branch-top-left { top: 20%; left: 20%; transform: translate(-50%, -50%); }
+        .branch-top-right { top: 20%; right: 20%; transform: translate(50%, -50%); }
+        .branch-bottom-left { bottom: 20%; left: 20%; transform: translate(-50%, 50%); }
+        .branch-bottom-right { bottom: 20%; right: 20%; transform: translate(50%, 50%); }
+
+        .branch:hover {
+            transform: translate(var(--tx, -50%), var(--ty, -50%)) scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+        .branch-top-left:hover   { --tx: -50%; --ty: -50%; }
+        .branch-top-right:hover  { --tx: 50%;  --ty: -50%; }
+        .branch-bottom-left:hover{ --tx: -50%; --ty: 50%;  }
+        .branch-bottom-right:hover{--tx: 50%;  --ty: 50%;  }
+
+        .branch-content { text-align: center; }
+        .branch-icon { font-size: 48px; color: var(--color-primary); margin-bottom: var(--spacing-md); }
+        .branch-title { font-size: 24px; font-weight: bold; color: var(--color-gray-500); margin-bottom: var(--spacing-sm); }
+        .branch-description { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+        .tech-tag { background: var(--color-gray-100); color: var(--color-gray-500); padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; border: 1px solid var(--color-gray-200); }
+
+        .line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 2px;
+            background-color: #dbe4f0;
+            transform-origin: left center;
+            z-index: 1;
+        }
+        .line-top-right { width: 402px; transform: rotate(-26.57deg); }
+        .line-top-left { width: 402px; transform: rotate(-153.43deg); }
+        .line-bottom-right { width: 402px; transform: rotate(26.57deg); }
+        .line-bottom-left { width: 402px; transform: rotate(153.43deg); }
+
+        /* --- 底部按钮 --- */
+        .tech-action {
+            margin-top: 40px;
+        }
+        .action-button {
+            background: var(--color-primary);
+            color: white;
+            padding: 12px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .action-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 139, 245, 0.3);
+        }
+
+        /* 双轮驱动样式 */
+        .dual-drive-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .dual-drive-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+
+
+        @media (max-width: 768px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-text { padding-right: 0; }
+            .hero-title { font-size: 36px; }
+            .lifecycle-grid { grid-template-columns: 1fr; }
+            .dual-drive-cards { grid-template-columns: 1fr; gap: var(--spacing-lg); }
+            .alliance-three-columns { grid-template-columns: 1fr; gap: var(--spacing-xl); }
+            .alliance-column { gap: var(--spacing-md); }
+            
+            .consensus-box, .alliance-members, .alliance-logos { padding: var(--spacing-lg); }
+            .consensus-title, .member-title { font-size: 18px; }
+            .consensus-content { font-size: 13px; }
+            .member-position { font-size: 15px; }
+            .member-name { font-size: 13px; }
+            
+            .drive-card { padding: var(--spacing-xl); }
+            .drive-title { font-size: 20px; }
+            
+            .center-shield { width: 100px; height: 100px; }
+            .branch { padding: var(--spacing-lg); margin-bottom: var(--spacing-md); }
+            .branch-icon { font-size: 36px; }
+            .branch-title { font-size: 16px; }
+            .branch-description { font-size: 12px; }
+            
+            .engines-grid { grid-template-columns: 1fr; padding: 0 var(--spacing-md); }
+            .engine-card { padding: var(--spacing-lg); }
+            .engine-icon { width: 60px; height: 60px; font-size: 24px; }
+            .engine-title { font-size: 18px; }
+            .engine-description { font-size: 14px; }
+        }
+
+        /* 技术概览六大引擎样式 */
+        .tech-overview {
+            max-width: 1200px;
+            margin: var(--spacing-2xl) auto;
+            padding: 0 var(--spacing-xl);
+            text-align: center;
+        }
+
+        .tech-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .tech-description {
+            font-size: 18px;
+            color: var(--color-gray-400);
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto var(--spacing-2xl);
+        }
+
+        .engines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-2xl) auto;
+            max-width: 1200px;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .engine-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--color-primary);
+            text-align: center;
+            transition: transform var(--transition-normal);
+        }
+
+        .engine-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .engine-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--color-gray-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-lg);
+            font-size: 32px;
+            color: var(--color-primary);
+        }
+
+        .engine-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .engine-description {
+            color: var(--color-gray-400);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- 浏览器地址栏 -->
+    <div class="browser-bar">
+        <div class="browser-controls">
+            <div class="browser-control close"></div>
+            <div class="browser-control minimize"></div>
+            <div class="browser-control maximize"></div>
+        </div>
+        <div class="browser-url">https://space.zjcaee.com</div>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="nav-container">
+        <div class="nav-content">
+            <nav class="nav-desktop">
+                <div class="logo">文旅可信数据空间</div>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link active">首页</a></li>
+                    <li><a href="technology.html" class="nav-link">技术能力</a></li>
+                    <li><a href="solutions.html" class="nav-link">解决方案</a></li>
+                    <li><a href="data-catalog.html" class="nav-link">数据目录</a></li>
+                    <li><a href="form-basic.html" class="nav-link">申请试用</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 第1屏：核心价值主张 -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-subtitle">全国首个丨文化数据要素全生命周期服务平台</div>
+                <h1 class="hero-title">"人工智能+"文化 数据资源基座</h1>
+                
+                <div class="hero-slogan">让人类文明结晶，焕发数字世界全新价值</div>
+                <p class="hero-description">
+                    突破数据确权、交付、溯源、保护的技术瓶颈，构建安全、高效、开放、共赢的数据流通新生态，为文旅产业的数字化转型注入可信动能
+                </p>
+                <button class="btn-primary">马上进入</button>
+            </div>
+            <div class="word-cloud-carousel">
+                <!-- 词云图轮播 -->
+                <div class="word-cloud-slide active">
+                    <img src="word-cloud/wordcloud-china.png" alt="数据处理维度 - 存储">
+                </div>
+                <div class="word-cloud-slide">
+                    <img src="word-cloud/wordcloud-cloud1.png" alt="数据处理维度 - 加工">
+                </div>
+                <div class="word-cloud-slide">
+                    <img src="word-cloud/wordcloud-mount2.png" alt="数据处理维度 - 交易">
+                </div>
+                <div class="word-cloud-slide">
+                    <img src="word-cloud/wordcloud-search2.png" alt="数据处理维度 - 存证">
+                </div>
+                <div class="word-cloud-slide">
+                    <img src="word-cloud/wordcloud-trade2.png" alt="数据处理维度 - 分析">
+                </div>
+                <div class="word-cloud-slide">
+                    <img src="word-cloud/wordcloud-view2.png" alt="数据处理维度 - 可视化">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第2屏：全生命周期服务闭环 -->
+    <section class="section">
+        <h2 class="h1-title">守护文旅数据要素全生命周期</h2>
+        <p class="h2-subtitle">提供闭环全链路解决方案</p>
+        
+        <div class="lifecycle-section">
+            <div class="lifecycle-grid">
+                <!-- 第一列：两个服务 -->
+                <div class="lifecycle-column">
+                    <div class="lifecycle-item">
+                        <h3>数据要素化服务</h3>
+                        <p class="service-intro">提供智能化工具将多源数据加工成标准产品</p>
+                        <p class="p-content">结合区块链与数字水印、数字指纹等技术，生成唯一数字身份，从源头完成文化数字资产确权与保护</p>
+                    </div>
+                    
+                    <div class="lifecycle-item">
+                        <h3>全周期维权服务</h3>
+                        <p class="service-intro">引入AI全网监控，实时发现侵权行为并固化证据</p>
+                        <p class="p-content">联动专业机构提供从取证到维权的一站式服务，形成保护闭环</p>
+                    </div>
+                </div>
+                
+                <!-- 第二列：圆环图示 -->
+                <div class="lifecycle-image">
+                    <img src="img-folder/生命周期_compressed.png" alt="全生命周期服务闭环">
+                </div>
+                
+                <!-- 第三列：两个服务 -->
+                <div class="lifecycle-column">
+                    <div class="lifecycle-item">
+                        <h3>可信交易生态</h3>
+                        <p class="service-intro">通过身份核验与智能合约构建信任基础</p>
+                        <p class="p-content">运用算法撮合供需，结合信用评分与黑名单机制，营造安全、高效的交易生态</p>
+                    </div>
+                    
+                    <div class="lifecycle-item">
+                        <h3>安全交付方案</h3>
+                        <p class="service-intro">针对不同数据资产、数据规模，提供定制化安全交付方案</p>
+                        <p class="p-content">TB级数据采用专用连接器通路传输，PB级数据通过加密物理介质离线交付</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技术概览 -->
+    <section class="tech-overview">
+        <h2 class="h1-title">统一入口  六大引擎  多元汇聚</h2>
+        <p class="h2-subtitle">
+            平台提供1个门户、6大能力及多种接入方式，通过核心技术引擎构建合规与信任机制，
+            桥接底层资源与上层应用，完成数据生产、确权和交易的流程闭环。
+        </p>
+        
+        <div class="engines-grid">
+            <div class="engine-card">
+                <div class="engine-icon">
+                    <i class="fas fa-fingerprint"></i>
+                </div>
+                <h3 class="engine-title">确权登记</h3>
+                <p class="p-content">
+                    为非结构化、多模态数据资产，提供唯一、可信的数字身份和数据产权登记
+                </p>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="engine-title">安全管控</h3>
+                <p class="p-content">
+                    从数据合规、身份认证到行为评估，构建立体化可信环境，全方位保障安全
+                </p>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <h3 class="engine-title">互联互通</h3>
+                <p class="p-content">
+                    突破平台与技术壁垒，打通跨主体、跨空间、跨资产链的数据资源
+                </p>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3 class="engine-title">价值共创</h3>
+                <p class="p-content">
+                    以智能算法为驱动，精准匹配供需，最大化挖掘和释放数据价值
+                </p>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3 class="engine-title">可信交付</h3>
+                <p class="p-content">
+                    在线与离线双通路交付方案协同，确保数据在约定范围内授权使用
+                </p>
+            </div>
+            
+            <div class="engine-card">
+                <div class="engine-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="engine-title">交易支撑</h3>
+                <p class="p-content">
+                    提供从支付清算到合约治理的全链路交易保障，让交易公平透明
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第4屏：双轮驱动 -->
+    <section class="section" style="background: var(--color-gray-100);">
+        <h2 class="h1-title">双轮驱动  释放数据价值</h2>
+        
+        <div class="dual-drive-section">
+            <div class="dual-drive-cards">
+                <!-- 左侧卡片：商业增长引擎 -->
+                <div class="drive-card">
+                    <div class="drive-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="drive-title">企业与社会数据解决方案</h3>
+                    <p class="p-content">
+                        聚焦文旅产业的真实痛点，我们将高质量的企业与社会数据，通过成熟的解决方案，转化为驱动您商业增长的精准洞察与核心动力。
+                    </p><br/>
+                    <button class="btn-primary" onclick="location.href='solutions.html#enterprise-solutions'">探索商业解决方案</button>
+                </div>
+                
+                <!-- 右侧卡片：社会价值引擎 -->
+                <div class="drive-card">
+                    <div class="drive-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3 class="drive-title">公共数据授权运营（旗舰计划）</h3>
+                    <p class="p-content">
+                        作为行业先行者，我们搭建了连接政府数据与市场创新的桥梁。我们诚邀您参与这一旗舰计划，共同探索公共数据的社会价值蓝海，赋能行业治理与中小企业创新。
+                    </p><br/>
+                    <button class="btn-primary" onclick="location.href='solutions.html#flagship-plan'">了解旗舰计划详情</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 第5屏：联盟生态 -->
+    <section class="section">
+        <h2 class="h1-title">联盟生态</h2>
+        
+        <div class="alliance-section">
+            <div class="alliance-three-columns">
+                <!-- 第一列：千岛湖共识 -->
+                <div class="alliance-column">
+                    <div class="consensus-box">
+                        <h3 class="consensus-title">千岛湖共识</h3>
+                        <div class="consensus-content">
+                            <p class="h2-subtitle" style="font-style: italic; margin-bottom: var(--spacing-lg);">
+                                文旅可信数据空间联盟倡议
+                            </p>
+                            <div class="p-content">主体优先，可控授权；</div>
+                            <div class="p-content">协同优先，多方共建；</div>
+                            <div class="p-content">共创优先，收益同享；</div>
+                            <div class="p-content">安全优先，技术护航；</div>
+                            <div class="p-content">持续优先，生态驱动；</div>
+                            <div class="p-content">合规优先，动态治理；</div>
+                            <div class="p-content">开放优先，全球互认。</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第二列：联盟领头单位 -->
+                <div class="alliance-column">
+                    <div class="alliance-members">
+                        <div class="member-list">
+                            <div class="member-category">
+                                <strong class="member-position">理事长单位</strong>
+                                <div class="member-name">浙江省文化产业投资集团</div>
+                            </div>
+                            <div class="member-category">
+                                <strong class="member-position">副理事长单位</strong>
+                                <div class="member-name">中国数字化集团</div>
+                                <div class="member-name">携程集团有限公司</div>
+                                <div class="member-name">浙江省旅游投资集团有限公司</div>
+                                <div class="member-name">浙江飞猪网络技术有限公司</div>
+                                <div class="member-name">中国联合网络通信有限公司杭州分公司</div>
+                            </div>
+                            <div class="member-category">
+                                <strong class="member-position">秘书长单位</strong>
+                                <div class="member-name">浙江省文化广电和旅游大数据中心</div>
+                            </div>
+                            <div class="member-category">
+                                <strong class="member-position">副秘书长单位</strong>
+                                <div class="member-name">淳安县数据资源中心</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第三列：理事单位Logo墙 -->
+                <div class="alliance-column">
+                    <div class="alliance-logos">
+                        <div class="logo-wall">
+                            <img src="img-folder/联盟生态2_compressed.png" alt="联盟生态理事单位Logo墙" class="logo-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 最新动态 -->
+            <div class="news-section">
+                <h3 class="h2-subtitle">最新动态</h3>
+                <div class="news-layout">
+                    <!-- 左边占位图 -->
+                    <div class="news-image">
+                        <img src="https://static.photos/technology/640x360/196" alt="最新动态占位图">
+                    </div>
+                    <!-- 右边文章列表 -->
+                    <ul class="news-list">
+                        <li class="p-content"><a href="#">文旅可信数据空间联盟大会顺利召开</a></li>
+                        <li class="p-content"><a href="#">千岛湖共识正式发布，推动行业标准建设</a></li>
+                        <li class="p-content"><a href="#">平台完成首轮数据确权登记试点</a></li>
+                        <li class="p-content"><a href="#">国家数据局正式发布首批40个数据领域常用名词解释</a></li>
+                        <li class="p-content"><a href="#">“数据基础设施建设典型案例”正式发布</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 词云图轮播功能
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.word-cloud-slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        // 每5秒自动切换
+        setInterval(nextSlide, 4000);
+
+        // 初始化显示第一张
+        showSlide(0);
+
+        // 按钮交互效果
+        document.querySelectorAll('.btn-primary').forEach(btn => {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

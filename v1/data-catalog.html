@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据目录 - 文旅可信数据空间</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://use.fontawesome.com/releases/v6.5.1/js/all.js"></script>
+    <style>
+        :root {
+            --color-primary: #0052D4;
+            --color-secondary: #00A1D6;
+            --color-accent: #3A3A3A;
+            --color-gray-100: #F5F5F5;
+            --color-gray-200: #E5E5E5;
+            --color-gray-300: #D9D9D9;
+            --color-gray-400: #666666;
+            --color-gray-500: #3A3A3A;
+            --color-error: #FF4D4F;
+            --color-success: #52C41A;
+            --font-family-cn: 'Source Han Sans', sans-serif;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --radius-md: 8px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --transition-normal: 0.3s;
+        }
+
+        body {
+            font-family: var(--font-family-cn);
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: var(--color-gray-500);
+        }
+
+        .browser-bar {
+            height: 40px;
+            background-color: #ccc;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+            border-bottom: 1px solid var(--color-gray-300);
+        }
+
+        .browser-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .browser-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .browser-control.close { background-color: #FF5F57; }
+        .browser-control.minimize { background-color: #FFBD2E; }
+        .browser-control.maximize { background-color: #28CA42; }
+
+        .browser-url {
+            flex: 1;
+            text-align: center;
+            color: var(--color-gray-400);
+            font-size: 14px;
+        }
+
+        .nav-container {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid var(--color-gray-200);
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .nav-desktop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-mobile {
+            display: none;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-2xl);
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: var(--color-gray-400);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color var(--transition-normal);
+        }
+
+        .nav-link.active {
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        .language-switch {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--color-gray-400);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .lang-btn.active {
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .page-header {
+            background: var(--color-gray-100);
+            padding: var(--spacing-2xl) 0;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--color-gray-400);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .filter-section {
+            max-width: 1200px;
+            margin: var(--spacing-2xl) auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .filter-group {
+            background: white;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-gray-500);
+        }
+
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 14px;
+            color: var(--color-gray-400);
+            cursor: pointer;
+        }
+
+        .filter-option input {
+            margin: 0;
+        }
+
+        .catalog-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .data-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--color-primary);
+            transition: all var(--transition-normal);
+        }
+
+        .data-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin: 0;
+        }
+
+        .card-category {
+            background: var(--color-gray-100);
+            padding: 2px 8px;
+            border-radius: var(--radius-md);
+            font-size: 12px;
+            color: var(--color-gray-400);
+        }
+
+        .card-description {
+            color: var(--color-gray-400);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .card-scenarios {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .scenario-tag {
+            background: var(--color-gray-100);
+            padding: 4px 8px;
+            border-radius: var(--radius-md);
+            font-size: 12px;
+            color: var(--color-gray-400);
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .detail-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .detail-btn:hover {
+            background: var(--color-secondary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--spacing-2xl);
+            color: var(--color-gray-400);
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-gray-300);
+        }
+
+        .demand-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: var(--spacing-lg);
+            transition: all var(--transition-normal);
+        }
+
+        .demand-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .nav-desktop {
+                display: none;
+            }
+            
+            .nav-mobile {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 56px;
+                padding: 0 var(--spacing-md);
+            }
+            
+            .nav-content {
+                padding: 0 var(--spacing-md);
+            }
+            
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .catalog-grid {
+                grid-template-columns: 1fr;
+                padding: 0 var(--spacing-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="browser-bar">
+        <div class="browser-controls">
+            <div class="browser-control close"></div>
+            <div class="browser-control minimize"></div>
+            <div class="browser-control maximize"></div>
+        </div>
+        <div class="browser-url">https://space.zjcaee.com/data-catalog</div>
+    </div>
+
+    <div class="nav-container">
+        <div class="nav-content">
+            <nav class="nav-desktop">
+                <div class="logo">文旅可信数据空间</div>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">成效中心</a></li>
+                    <li><a href="solutions.html" class="nav-link">解决方案</a></li>
+                    <li><a href="data-catalog.html" class="nav-link active">数据目录</a></li>
+                    <li><a href="alliance.html" class="nav-link">联盟生态</a></li>
+                    <li><a href="event.html" class="nav-link">发布会专题</a></li>
+                </ul>
+                <div class="language-switch">
+                    <button class="lang-btn active">中文</button>
+                    <button class="lang-btn">EN</button>
+                </div>
+            </nav>
+            
+            <nav class="nav-mobile">
+                <div class="logo">文旅可信数据空间</div>
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <section class="page-header">
+        <h1 class="page-title">数据目录</h1>
+        <p class="page-subtitle">探索文旅行业可信数据产品，发现数据价值应用场景</p>
+    </section>
+
+    <section class="filter-section">
+        <div class="filter-grid">
+            <div class="filter-group">
+                <div class="filter-title">行业分类</div>
+                <div class="filter-options">
+                    <label class="filter-option">
+                        <input type="checkbox" checked> 景区
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox"> 酒店
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox"> 旅行社
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox"> 交通
+                    </label>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <div class="filter-title">数据类型</div>
+                <div class="filter-options">
+                    <label class="filter-option">
+                        <input type="checkbox"> 客流数据
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" checked> 消费偏好
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox"> 行为轨迹
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox"> 评价数据
+                    </label>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <div class="filter-title">应用场景</div>
+                <div class="filter-options">
+                    <label class="filter-option">
+                        <input type="checkbox"> 精准营销
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" checked> 运营优化
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox"> 风险预警
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox"> 政策制定
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="catalog-grid">
+            <div class="data-card">
+                <div class="card-header">
+                    <h3 class="card-title">景区客流分析数据</h3>
+                    <span class="card-category">景区</span>
+                </div>
+                <p class="card-description">实时景区客流量、游客来源地、停留时长等数据，支持景区运营决策和游客服务优化。</p>
+                <div class="card-scenarios">
+                    <span class="scenario-tag">客流预测</span>
+                    <span class="scenario-tag">资源调配</span>
+                    <span class="scenario-tag">安全预警</span>
+                </div>
+                <div class="card-actions">
+                    <button class="detail-btn">查看详情</button>
+                </div>
+            </div>
+
+            <div class="data-card">
+                <div class="card-header">
+                    <h3 class="card-title">酒店消费偏好数据</h3>
+                    <span class="card-category">酒店</span>
+                </div>
+                <p class="card-description">酒店客户消费行为、偏好特征、预订习惯等数据，助力酒店精准营销和服务提升。</p>
+                <div class="card-scenarios">
+                    <span class="scenario-tag">精准营销</span>
+                    <span class="scenario-tag">产品优化</span>
+                    <span class="scenario-tag">客户留存</span>
+                </div>
+                <div class="card-actions">
+                    <button class="detail-btn">查看详情</button>
+                </div>
+            </div>
+
+            <div class="data-card">
+                <div class="card-header">
+                    <h3 class="card-title">旅游线路热度数据</h3>
+                    <span class="card-category">旅行社</span>
+                </div>
+                <p class="card-description">热门旅游线路、季节变化趋势、游客评价等数据，支持旅行社产品设计和市场策略。</p>
+                <div class="card-scenarios">
+                    <span class="scenario-tag">产品设计</span>
+                    <span class="scenario-tag">市场分析</span>
+                    <span class="scenario-tag">竞争监测</span>
+                </div>
+                <div class="card-actions">
+                    <button class="detail-btn">查看详情</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 筛选功能
+        const filters = document.querySelectorAll('.filter-option input');
+        const dataCards = document.querySelectorAll('.data-card');
+        
+        function filterData() {
+            const selectedIndustries = Array.from(
+                document.querySelectorAll('input[type="checkbox"]:checked')
+            ).map(cb => cb.parentElement.textContent.trim());
+            
+            dataCards.forEach(card => {
+                const category = card.querySelector('.card-category').textContent;
+                if (selectedIndustries.length === 0 || selectedIndustries.includes(category)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // 检查是否无结果
+            const visibleCards = Array.from(dataCards).filter(card => 
+                card.style.display !== 'none'
+            );
+            
+            if (visibleCards.length === 0) {
+                showEmptyState();
+            }
+        }
+        
+        function showEmptyState() {
+            const catalogGrid = document.querySelector('.catalog-grid');
+            const emptyState = document.createElement('div');
+            emptyState.className = 'empty-state';
+            emptyState.innerHTML = `
+                <div class="empty-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>暂无匹配的数据产品</h3>
+                <p>当前筛选条件下未找到匹配的数据产品，您可以提交需求告诉我们您需要的数据类型</p>
+                <button class="demand-btn" onclick="location.href='form-basic.html'">提交数据需求</button>
+            `;
+            catalogGrid.appendChild(emptyState);
+        }
+        
+        filters.forEach(filter => {
+            filter.addEventListener('change', filterData);
+        });
+    </script>
+</body>
+</html>

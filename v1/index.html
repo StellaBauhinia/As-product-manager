@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文旅可信数据空间 - 首页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://use.fontawesome.com/releases/v6.5.1/js/all.js"></script>
+    <style>
+        :root {
+            /* 主色调 */
+            --color-primary: #0052D4;
+            --color-secondary: #00A1D6;
+            --color-accent: #3A3A3A;
+            
+            /* 中性色 */
+            --color-gray-100: #F5F5F5;
+            --color-gray-200: #E5E5E5;
+            --color-gray-300: #D9D9D9;
+            --color-gray-400: #666666;
+            --color-gray-500: #3A3A3A;
+            
+            /* 功能色 */
+            --color-error: #FF4D4F;
+            --color-success: #52C41A;
+            --color-warning: #FAAD14;
+            
+            /* 字体 */
+            --font-family-cn: 'Source Han Sans', 'Microsoft YaHei', sans-serif;
+            --font-family-en: 'Roboto', sans-serif;
+            
+            /* 间距 */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            
+            /* 圆角 */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            
+            /* 阴影 */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            
+            /* 动画 */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+        }
+
+        body {
+            font-family: var(--font-family-cn);
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: var(--color-gray-500);
+        }
+
+        .browser-bar {
+            height: 40px;
+            background-color: #ccc;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+            border-bottom: 1px solid var(--color-gray-300);
+        }
+
+        .browser-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .browser-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .browser-control.close { background-color: #FF5F57; }
+        .browser-control.minimize { background-color: #FFBD2E; }
+        .browser-control.maximize { background-color: #28CA42; }
+
+        .browser-url {
+            flex: 1;
+            text-align: center;
+            color: var(--color-gray-400);
+            font-size: 14px;
+        }
+
+        .nav-container {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid var(--color-gray-200);
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .nav-desktop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-mobile {
+            display: none;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-2xl);
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: var(--color-gray-400);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color var(--transition-normal);
+        }
+
+        .nav-link.active {
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+
+        .language-switch {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--color-gray-400);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .lang-btn.active {
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .hero-section {
+            height: 600px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            margin-bottom: var(--spacing-2xl);
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            background: white;
+            color: var(--color-primary);
+            border: none;
+            padding: var(--spacing-md) var(--spacing-2xl);
+            border-radius: var(--radius-md);
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .cta-button:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stats-section {
+            padding: var(--spacing-2xl) 0;
+            background: var(--color-gray-100);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-2xl);
+        }
+
+        .stat-card {
+            background: white;
+            padding: var(--spacing-2xl);
+            border-radius: var(--radius-md);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stat-label {
+            font-size: 16px;
+            color: var(--color-gray-400);
+        }
+
+        .timeline-section {
+            padding: var(--spacing-2xl) 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+            color: var(--color-gray-500);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--color-gray-300);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-2xl);
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding: var(--spacing-lg);
+            background: white;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            max-width: 45%;
+        }
+
+        .timeline-year {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-primary);
+            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .map-section {
+            padding: var(--spacing-2xl) 0;
+            background: var(--color-gray-100);
+        }
+
+        .map-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+            text-align: center;
+        }
+
+        .map-placeholder {
+            height: 400px;
+            background: var(--color-gray-200);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-gray-400);
+            font-size: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-desktop {
+                display: none;
+            }
+            
+            .nav-mobile {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 56px;
+                padding: 0 var(--spacing-md);
+            }
+            
+            .nav-content {
+                padding: 0 var(--spacing-md);
+            }
+            
+            .hero-title {
+                font-size: 32px;
+            }
+            
+            .hero-subtitle {
+                font-size: 16px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                flex-direction: row !important;
+            }
+            
+            .timeline-content {
+                max-width: calc(100% - 60px);
+                margin-left: 60px;
+            }
+            
+            .timeline-year {
+                left: 20px;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 浏览器地址栏 -->
+    <div class="browser-bar">
+        <div class="browser-controls">
+            <div class="browser-control close"></div>
+            <div class="browser-control minimize"></div>
+            <div class="browser-control maximize"></div>
+        </div>
+        <div class="browser-url">https://space.zjcaee.com/</div>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="nav-container">
+        <div class="nav-content">
+            <nav class="nav-desktop">
+                <div class="logo">文旅可信数据空间</div>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link active">成效中心</a></li>
+                    <li><a href="solutions.html" class="nav-link">解决方案</a></li>
+                    <li><a href="data-catalog.html" class="nav-link">数据目录</a></li>
+                    <li><a href="alliance.html" class="nav-link">联盟生态</a></li>
+                    <li><a href="event.html" class="nav-link">发布会专题</a></li>
+                </ul>
+                <div class="language-switch">
+                    <button class="lang-btn active">中文</button>
+                    <button class="lang-btn">EN</button>
+                </div>
+            </nav>
+            
+            <nav class="nav-mobile">
+                <div class="logo">文旅可信数据空间</div>
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero Banner -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">信任之环，文旅之光</h1>
+            <p class="hero-subtitle">打造文旅行业可信数据流通基础设施，释放数据要素价值</p>
+            <button class="cta-button">了解更多</button>
+        </div>
+    </section>
+
+    <!-- 数据统计 -->
+    <section class="stats-section">
+        <div class="stats-container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">37</div>
+                    <div class="stat-label">联盟成员数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">30</div>
+                    <div class="stat-label">上线产品数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">交易额(万元)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 发展历程 -->
+    <section class="timeline-section">
+        <h2 class="section-title">发展历程</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>平台启动</h3>
+                    <p>文旅可信数据空间正式上线，首批10家成员加入</p>
+                </div>
+                <div class="timeline-year">2024</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>生态扩展</h3>
+                    <p>联盟成员扩展至25家，上线首批数据产品</p>
+                </div>
+                <div class="timeline-year">2025</div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3>规模发展</h3>
+                    <p>成员达37家，产品30个，交易额突破百万</p>
+                </div>
+                <div class="timeline-year">2026</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 成员分布地图 -->
+    <section class="map-section">
+        <div class="map-container">
+            <h2 class="section-title">成员分布</h2>
+            <div class="map-placeholder">
+                <i class="fas fa-map-marked-alt" style="font-size: 48px; margin-right: 16px;"></i>
+                <span>交互式成员分布地图</span>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 简单的数字动画效果
+        function animateNumbers() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.textContent);
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        stat.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = Math.floor(current);
+                    }
+                }, 30);
+            });
+        }
+
+        // 页面加载完成后执行动画
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(animateNumbers, 500);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技术能力 - 文旅可信数据空间</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://use.fontawesome.com/releases/v6.5.1/js/all.js"></script>
+    <style>
+        :root {
+            /* 颜色设计令牌 */
+            --color-primary: #008bf5;
+            --color-secondary: #00A1D6;
+            --color-accent: #3A3A3A;
+            --color-gray-100: #F5F5F5;
+            --color-gray-200: #E5E5E5;
+            --color-gray-300: #D9D9D9;
+            --color-gray-400: #666666;
+            --color-gray-500: #3A3A3A;
+            --color-error: #FF4D4F;
+            --color-success: #52C41A;
+            --color-warning: #FAAD14;
+            
+            /* 字体设计令牌 */
+            --font-family-cn: 'Source Han Sans', 'Microsoft YaHei', sans-serif;
+            --font-family-en: 'Roboto', sans-serif;
+            --font-size-title: 24px;
+            --font-size-body: 16px;
+            --font-size-secondary: 14px;
+            
+            /* 间距设计令牌 */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            
+            /* 圆角设计令牌 */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 16px;
+            
+            /* 阴影设计令牌 */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            
+            /* 动画设计令牌 */
+            --transition-fast: 0.15s;
+            --transition-normal: 0.3s;
+            --transition-slow: 0.5s;
+        }
+
+        body {
+            font-family: var(--font-family-cn);
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: var(--color-gray-500);
+        }
+
+        .browser-bar {
+            height: 40px;
+            background-color: #ccc;
+            display: flex;
+            align-items: center;
+            padding: 0 var(--spacing-md);
+            border-bottom: 1px solid var(--color-gray-300);
+        }
+
+        .browser-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+        }
+
+        .browser-control {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .browser-control.close { background-color: #FF5F57; }
+        .browser-control.minimize { background-color: #FFBD2E; }
+        .browser-control.maximize { background-color: #28CA42; }
+
+        .browser-url {
+            flex: 1;
+            text-align: center;
+            color: var(--color-gray-400);
+            font-size: 14px;
+        }
+
+        .nav-container {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid var(--color-gray-200);
+            z-index: 100;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .nav-desktop {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .nav-mobile {
+            display: none;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--spacing-2xl);
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: var(--color-gray-400);
+            text-decoration: none;
+            font-size: 16px;
+            transition: color var(--transition-normal);
+        }
+
+        .nav-link.active {
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+
+
+
+        .page-header {
+            background: var(--color-gray-100);
+            padding: var(--spacing-2xl) 0;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: var(--color-gray-400);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .tech-overview {
+            max-width: 1200px;
+            margin: var(--spacing-2xl) auto;
+            padding: 0 var(--spacing-xl);
+            text-align: center;
+        }
+
+        .tech-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .tech-description {
+            font-size: 18px;
+            color: var(--color-gray-400);
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto var(--spacing-2xl);
+        }
+
+        .engines-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-2xl) auto;
+            max-width: 1200px;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .engine-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--color-primary);
+            text-align: center;
+            transition: transform var(--transition-normal);
+        }
+
+        .engine-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .engine-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--color-gray-100);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-lg);
+            font-size: 32px;
+            color: var(--color-primary);
+        }
+
+        .engine-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .engine-description {
+            color: var(--color-gray-400);
+            line-height: 1.5;
+        }
+
+        .toolkit-section {
+            background: var(--color-gray-100);
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .toolkit-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .toolkit-title {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .toolkit-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--spacing-lg);
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--color-gray-100);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: var(--spacing-lg);
+            font-size: 24px;
+            color: var(--color-primary);
+        }
+
+        .tool-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .tool-subtitle {
+            color: var(--color-gray-400);
+            font-size: 14px;
+        }
+
+        .tool-description {
+            color: var(--color-gray-400);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .tech-keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .tech-keyword {
+            background: var(--color-gray-100);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            color: var(--color-gray-500);
+        }
+
+        .tool-cta {
+            text-align: center;
+        }
+
+        .tool-cta-btn {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .tool-cta-btn:hover {
+            background: var(--color-secondary);
+            transform: scale(1.05);
+        }
+
+        .architecture-section {
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .architecture-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-xl);
+        }
+
+        .architecture-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-2xl);
+            text-align: center;
+        }
+
+        .architecture-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-2xl);
+            align-items: start;
+        }
+
+        .architecture-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        .architecture-text {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .layer-item {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .layer-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .layer-description {
+            color: var(--color-gray-400);
+            line-height: 1.6;
+            font-size: 16px;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .cta-section {
+            background: var(--color-gray-100);
+            padding: var(--spacing-2xl) 0;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .cta-description {
+            font-size: 18px;
+            color: var(--color-gray-400);
+            margin-bottom: var(--spacing-2xl);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: var(--spacing-md) var(--spacing-2xl);
+            border-radius: var(--radius-md);
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .cta-button:hover {
+            background: var(--color-secondary);
+            transform: scale(1.05);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* 技术速览雷达图样式 */
+        .tech-diagram-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 60px;
+        }
+
+        /* 核心：1200x600 矩形布局容器 */
+        .tech-diagram-container {
+            position: relative;
+            width: 1200px;
+            height: 600px;
+            margin: 0 auto;
+        }
+
+        /* 中心元素 */
+        .center-shield {
+            width: 160px;
+            height: 100px;
+            background: var(--color-primary);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 20px rgba(0, 139, 245, 0.5);
+            z-index: 10;
+        }
+
+        .shield-content {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* 分支卡片的通用和定位样式 */
+        .branch {
+            width: 280px;
+            padding: 24px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            position: absolute;
+            z-index: 5;
+            transition: transform 0.3s ease;
+        }
+
+        /* 使用 top/left/right/bottom 和 transform 来精确定位 */
+        .branch-top-left {
+            top: 20%;
+            left: 20%;
+            transform: translate(-50%, -50%);
+        }
+        .branch-top-right {
+            top: 20%;
+            right: 20%;
+            transform: translate(50%, -50%);
+        }
+        .branch-bottom-left {
+            bottom: 20%;
+            left: 20%;
+            transform: translate(-50%, 50%);
+        }
+        .branch-bottom-right {
+            bottom: 20%;
+            right: 20%;
+            transform: translate(50%, 50%);
+        }
+
+        .branch:hover {
+            transform: translate(var(--tx, -50%), var(--ty, -50%)) scale(1.05);
+        }
+        .branch-top-left:hover   { --tx: -50%; --ty: -50%; }
+        .branch-top-right:hover  { --tx: 50%;  --ty: -50%; }
+        .branch-bottom-left:hover{ --tx: -50%; --ty: 50%;  }
+        .branch-bottom-right:hover{--tx: 50%;  --ty: 50%;  }
+
+        .branch-content {
+            text-align: center;
+        }
+
+        .branch-icon {
+            font-size: 36px;
+            color: var(--color-primary);
+            margin-bottom: 16px;
+        }
+
+        .branch-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--color-gray-500);
+            margin-bottom: 16px;
+        }
+
+        .branch-description {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tech-tag {
+            background: var(--color-gray-100);
+            color: var(--color-gray-500);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid var(--color-gray-200);
+        }
+
+        /* 关键：连接线的样式 */
+        .line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 1px;
+            background-color: #dbe4f0;
+            transform-origin: left center;
+            z-index: 1;
+        }
+
+        .line-top-right {
+            width: 402px;
+            transform: rotate(-26.57deg);
+        }
+
+        .line-top-left {
+            width: 402px;
+            transform: rotate(-153.43deg);
+        }
+
+        .line-bottom-right {
+            width: 402px;
+            transform: rotate(26.57deg);
+        }
+
+        .line-bottom-left {
+            width: 402px;
+            transform: rotate(153.43deg);
+        }
+
+        /* 底部按钮 */
+        .tech-action {
+            margin-top: 40px;
+        }
+
+        .action-button {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-button:hover {
+            background: var(--color-secondary);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 139, 245, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .nav-desktop {
+                display: none;
+            }
+            
+            .nav-mobile {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 56px;
+                padding: 0 var(--spacing-md);
+            }
+            
+            .nav-content {
+                padding: 0 var(--spacing-md);
+            }
+            
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .engines-grid {
+                grid-template-columns: 1fr;
+                padding: 0 var(--spacing-md);
+            }
+            
+            .toolkit-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tool-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .tool-icon {
+                margin-right: 0;
+                margin-bottom: var(--spacing-md);
+            }
+            
+            .architecture-content {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-xl);
+            }
+            
+            .architecture-text {
+                gap: var(--spacing-md);
+            }
+            
+            .layer-item {
+                padding: var(--spacing-md);
+            }
+            
+            .layer-title {
+                font-size: 15px;
+                margin-bottom: var(--spacing-xs);
+            }
+            
+            .layer-description {
+                font-size: 13px;
+                line-height: 1.3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 浏览器地址栏 -->
+    <div class="browser-bar">
+        <div class="browser-controls">
+            <div class="browser-control close"></div>
+            <div class="browser-control minimize"></div>
+            <div class="browser-control maximize"></div>
+        </div>
+        <div class="browser-url">https://space.zjcaee.com/technology</div>
+    </div>
+
+    <!-- 导航栏 -->
+    <div class="nav-container">
+        <div class="nav-content">
+            <nav class="nav-desktop">
+                <div class="logo">文旅可信数据空间</div>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">首页</a></li>
+                    <li><a href="technology.html" class="nav-link active">技术能力</a></li>
+                    <li><a href="solutions.html" class="nav-link">解决方案</a></li>
+                    <li><a href="data-catalog.html" class="nav-link">数据目录</a></li>
+                    <li><a href="form-basic.html" class="nav-link">申请试用</a></li>
+                </ul>
+            </nav>
+            
+            <nav class="nav-mobile">
+                <div class="logo">文旅可信数据空间</div>
+                <button class="menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 页面头部 -->
+    <section class="page-header">
+        <h1 class="page-title">技术能力</h1>
+        <p class="page-subtitle">统一入口六大引擎多元汇聚，构建文旅可信数据空间技术基座</p>
+    </section>
+
+    <!-- 第3屏：技术速览 -->
+    <section class="section" style="background: var(--color-gray-100);">
+        <!-- 页面整体容器 -->
+        <div class="tech-diagram-section">
+            <!-- 顶部大标题 -->
+            <h2 class="main-title">可信基石・构筑数据价值的核心技术引擎</h2>
+
+            <!-- 1200x600 的布局容器 -->
+            <div class="tech-diagram-container">
+                <!-- 连接线 (必须是独立的元素) -->
+                <div class="line line-top-left"></div>
+                <div class="line line-top-right"></div>
+                <div class="line line-bottom-left"></div>
+                <div class="line line-bottom-right"></div>
+
+                <!-- 中心元素 -->
+                <div class="center-shield">
+                    <div class="shield-content">可信数据核心</div>
+                </div>
+
+                <!-- 四个分支卡片 -->
+                <!-- 卡片 1: 数据确权 -->
+                <div class="branch branch-top-left">
+                    <div class="branch-content">
+                        <div class="branch-icon">
+                            <i class="fas fa-file-certificate"></i>
+                        </div>
+                        <h3 class="branch-title">数据确权与资产化</h3>
+                        <div class="branch-description">
+                            <span class="tech-tag">区块链存证</span>
+                            <span class="tech-tag">DCI版权</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 卡片 2: 隐私计算 -->
+                <div class="branch branch-top-right">
+                    <div class="branch-content">
+                        <div class="branch-icon">
+                            <i class="fas fa-shield-virus"></i>
+                        </div>
+                        <h3 class="branch-title">隐私计算与安全沙箱</h3>
+                        <div class="branch-description">
+                            <span class="tech-tag">多方安全计算</span>
+                            <span class="tech-tag">联邦学习</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 卡片 3: AI驱动 -->
+                <div class="branch branch-bottom-left">
+                    <div class="branch-content">
+                        <div class="branch-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="branch-title">AI驱动的价值挖掘</h3>
+                        <div class="branch-description">
+                            <span class="tech-tag">侵权监测</span>
+                            <span class="tech-tag">智能匹配</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 卡片 4: 全链路 -->
+                <div class="branch branch-bottom-right">
+                    <div class="branch-content">
+                        <div class="branch-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3 class="branch-title">全链路可信交付</h3>
+                        <div class="branch-description">
+                            <span class="tech-tag">加密传输</span>
+                            <span class="tech-tag">权限管控</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部操作按钮 -->
+            <div class="tech-action">
+                <button class="action-button" onclick="location.href='technology.html'">探索全部技术能力</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技术工具箱 -->
+    <section class="toolkit-section">
+        <div class="toolkit-container">
+            <h2 class="toolkit-title">技术工具箱</h2>
+            
+            <div class="toolkit-grid">
+                <!-- 数据确权登记与存证 -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <div>
+                            <h3 class="tool-title">数据确权登记与存证</h3>
+                            <p class="tool-subtitle">重点工具</p>
+                        </div>
+                    </div>
+                    
+                    <p class="tool-description">
+                        基于国家"数文链"与多链融合技术，结合DCI数字作品版权登记，
+                        为您的数据资产提供唯一、可信的数字身份。从源头解决数据权属问题，
+                        为流通交易提供法律依据。
+                    </p>
+                    
+                    <div class="tech-keywords">
+                        <span class="tech-keyword">区块链存证</span>
+                        <span class="tech-keyword">可信时间戳</span>
+                        <span class="tech-keyword">哈希值校验</span>
+                        <span class="tech-keyword">DCI登记</span>
+                    </div>
+                    
+                    <div class="tool-cta">
+                        <button class="tool-cta-btn">开启登记合作</button>
+                    </div>
+                </div>
+                
+                <!-- 隐私计算与安全沙箱 -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div>
+                            <h3 class="tool-title">隐私计算与安全沙箱</h3>
+                            <p class="tool-subtitle">核心技术</p>
+                        </div>
+                    </div>
+                    
+                    <p class="tool-description">
+                        提供"数据可用不可见"的安全计算环境。您可以在不暴露原始数据的情况下，
+                        进行联合分析、联合建模，安全地挖掘数据价值。
+                    </p>
+                    
+                    <div class="tech-keywords">
+                        <span class="tech-keyword">多方安全计算(MPC)</span>
+                        <span class="tech-keyword">联邦学习(FL)</span>
+                        <span class="tech-keyword">可信执行环境(TEE)</span>
+                    </div>
+                </div>
+                
+                <!-- AI侵权监测与维权 -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div>
+                            <h3 class="tool-title">AI侵权监测与维权</h3>
+                            <p class="tool-subtitle">智能保护</p>
+                        </div>
+                    </div>
+                    
+                    <p class="tool-description">
+                        利用先进的AI图像与文本比对技术，实现7x24小时全网监测，
+                        快速发现侵权盗用行为，并提供从取证到司法诉讼的一站式维权支持。
+                    </p>
+                    
+                    <div class="tech-keywords">
+                        <span class="tech-keyword">感知哈希算法</span>
+                        <span class="tech-keyword">自然语言处理</span>
+                        <span class="tech-keyword">自动化取证</span>
+                    </div>
+                </div>
+                
+                <!-- 多模态数据标注与训练 -->
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                        <div>
+                            <h3 class="tool-title">多模态数据标注与训练</h3>
+                            <p class="tool-subtitle">数据准备</p>
+                        </div>
+                    </div>
+                    
+                    <p class="tool-description">
+                        提供针对图像、视频、文本等多种类型数据的高效标注工具与服务，
+                        为训练文旅行业大模型提供高质量、合规的"数据燃料"。
+                    </p>
+                    
+                    <div class="tech-keywords">
+                        <span class="tech-keyword">自动化标注</span>
+                        <span class="tech-keyword">数据清洗</span>
+                        <span class="tech-keyword">数据集管理</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技术架构 -->
+    <section class="architecture-section">
+        <div class="architecture-container">
+            <h2 class="architecture-title">技术架构</h2>
+            
+            <div class="architecture-content">
+                <!-- 左边：架构图 -->
+                <div class="architecture-image">
+                    <img src="img-folder/架构图final_compressed.png" alt="技术架构图" style="width: 100%; height: auto;">
+                </div>
+                
+                <!-- 右边：文案内容 -->
+                <div class="architecture-text">
+                    <div class="layer-item">
+                        <h3 class="layer-title">应用门户</h3>
+                        <p class="layer-description">
+                            为用户提供可视化交互平台，提升业务透明度，为供需双方的数据要素流动赋能。最终达成良好的生态治理循环，实现数据全生命周期的管理与保护。
+                        </p>
+                        
+                        <h3 class="layer-title">服务枢纽</h3>
+                        <p class="layer-description">
+                            降低应用开发门槛，为其提供统一入口与自动化工具，强化确权监测与传输能力建设，支撑应用核心功能的具体实现。推动数据价值的快速变现，促进空间的生态创新与可持续发展。
+                        </p>
+                        
+                        <h3 class="layer-title">核心引擎</h3>
+                        <p class="layer-description">
+                            构建合规与信任机制，通过智能撮合和治理模型，桥接底层资源与上层应用，提供可复用的服务，完成数据生产、确权和交易的流程闭环。
+                        </p>
+                        
+                        <h3 class="layer-title">底层基石</h3>
+                        <p class="layer-description">
+                            以保障高效存储、安全计算、可信传输，在算力、带宽上实现资源复用与弹性扩展，支持海量多模态数据可靠管理，推动数据资产的长期价值释放。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA区域 -->
+    <section class="cta-section">
+        <h2 class="cta-title">开启您的数据价值之旅</h2>
+        <p class="cta-description">
+            无论您是文旅企业、政府机构还是技术服务商，我们的技术能力都能为您提供
+            安全、可信、高效的数据流通解决方案。
+        </p>
+        <button class="cta-button" onclick="location.href='form-basic.html'">
+            申请试用
+        </button>
+    </section>
+
+    <script>
+        // 简单的动画效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const engineCards = document.querySelectorAll('.engine-card');
+            const toolCards = document.querySelectorAll('.tool-card');
+            
+            // 延迟显示动画
+            setTimeout(() => {
+                engineCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 500);
+            
+            setTimeout(() => {
+                toolCards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 1000);
+            
+            // 初始化样式
+            engineCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.5s ease';
+            });
+            
+            toolCards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.5s ease';
+            });
+        });
+    </script>
+</body>
+</html>
